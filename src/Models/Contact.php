@@ -25,10 +25,9 @@ class Contact extends Model
 	/** @var Customer $customer */
 	public $customer;
 
-	public function __construct( Request $request, array $data )
+	public function __construct( Request $request, $data )
 	{
-		\Log::info($data['customer']);
-		$this->entity = str_replace(':customerNumber', $data['customer']->customerNumber, $this->entity);
+		$this->entity = str_replace(':customerNumber', $data->customer->customerNumber, $this->entity);
 
 		parent::__construct( $request, $data );
 	}

@@ -81,6 +81,6 @@ class Model
 
 		$responseData     = json_decode( $response->getBody()->getContents() );
 
-		return new $this->model($this->request, $responseData);
+		return new $this->modelClass($this->request, $responseData);
 	}
 }

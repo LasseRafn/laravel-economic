@@ -72,4 +72,15 @@ class Model
 	{
 		return $this->request->curl->delete("/{$this->entity}/{$this->{$this->primaryKey}}");
 	}
+
+	public function update($data = [])
+	{
+		$response = $this->request->curl->put("/{$this->entity}/{$this->{$this->primaryKey}}", [
+			'json' => $data
+		]);
+
+		$responseData     = json_decode( $response->getBody()->getContents() );
+
+		return new $this->model($this->request, $responseData);
+	}
 }

@@ -2,9 +2,9 @@
 
 use LasseRafn\Economic\Utils\Model;
 
-class Invoice extends Model
+class DraftInvoice extends Model
 {
-	protected $entity     = 'invoices';
+	protected $entity     = 'invoices/drafts';
 	protected $primaryKey = 'draftInvoiceNumber';
 	protected $fillable   = [
 		'draftInvoiceNumber',

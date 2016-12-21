@@ -54,7 +54,6 @@ class Builder
 	{
 		$urlFilters = '';
 
-
 		if ( count( $filters ) > 0 )
 		{
 			$urlFilters .= '?filter=';
@@ -73,14 +72,7 @@ class Builder
 			}
 		}
 
-		$url = $this->entity;
-
-		if( $subentity !== '')
-		{
-			$url .= "/{$subentity}";
-		}
-
-		$response = $this->request->curl->get( "/{$url}{$urlFilters}" );
+		$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
 
 		// todo check for errors and such
 

@@ -3,7 +3,7 @@
 use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
-use LasseRafn\Economic\Builders\InvoiceBuilder;
+use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
@@ -64,10 +64,10 @@ class Economic
 	}
 
 	/**
-	 * @return InvoiceBuilder|Builder
+	 * @return DraftInvoiceBuilder|Builder
 	 */
-	public function invoices()
+	public function draftInvoices()
 	{
-		return new InvoiceBuilder($this->request);
+		return new DraftInvoiceBuilder($this->request);
 	}
 }

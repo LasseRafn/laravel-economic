@@ -47,16 +47,14 @@ class DraftInvoice extends Model
 	 * @param string $description
 	 * @param int    $quantity
 	 * @param        $product
-	 * @param        $unit
 	 */
-	public function addLine( $description = '', $quantity = 1, $product, $unit )
+	public function addLine( $description = '', $quantity = 1, $product )
 	{
 		$line = new \stdClass();
 
 		$line->description = $description;
 		$line->quantity    = $quantity;
 		$line->product     = $product;
-		$line->unit        = $unit;
 
 		$this->lines[] = $line;
 	}

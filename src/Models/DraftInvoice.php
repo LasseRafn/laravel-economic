@@ -18,7 +18,7 @@ class DraftInvoice extends Model
 		'paymentTerms',
 		'recipient',
 		'lines',
-	    'project'
+		'project'
 	];
 
 	public $draftInvoiceNumber;
@@ -51,11 +51,13 @@ class DraftInvoice extends Model
 	 */
 	public function addLine( $description = '', $quantity = 1, $product, $unit )
 	{
-		$this->lines[] = [
-			'description' => $description,
-			'quantity'    => $quantity,
-			'product'     => $product,
-			'unit'        => $unit
-		];
+		$line = new \stdClass();
+
+		$line->description = $description;
+		$line->quantity    = $quantity;
+		$line->product     = $product;
+		$line->unit        = $unit;
+
+		$this->lines[] = $line;
 	}
 }

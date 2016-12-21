@@ -51,6 +51,11 @@ class Builder
 	{
 		$urlFilters = '';
 
+		if( $key === '' && isset($this->defaultKey))
+		{
+			$key = $this->defaultKey;
+		}
+
 		if ( ! $byKey )
 		{
 			if ( count( $filters ) > 0 )

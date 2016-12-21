@@ -57,7 +57,7 @@ class Builder
 
 		if ( count( $filters ) > 0 )
 		{
-			$urlFilters .= '?filters=';
+			$urlFilters .= '?filter=';
 
 			$i = 1;
 			foreach ( $filters as $filter )

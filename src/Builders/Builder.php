@@ -47,33 +47,46 @@ class Builder
 	/**
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function get( $filters = [] )
+	public function get( $filters = [], $key = '', $byKey = false )
 	{
 		$urlFilters = '';
 
-		if ( count( $filters ) > 0 )
+		if ( ! $byKey )
 		{
-			$urlFilters .= '?filters=';
-
-			$i = 1;
-			foreach ( $filters as $filter )
+			if ( count( $filters ) > 0 )
 			{
-				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter($filter[2]); // todo fix arrays aswell ([1,2,3,...] string)
+				$urlFilters .= '?filters=';
 
-				if ( count( $filters ) > $i )
+				$i = 1;
+				foreach ( $filters as $filter )
 				{
-					$urlFilters .= '$and:'; // todo allow $or: also
+					$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+
+					if ( count( $filters ) > $i )
+					{
+						$urlFilters .= '$and:'; // todo allow $or: also
+					}
+
+					$i ++;
 				}
-
-				$i ++;
 			}
-		}
 
-		$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
+			$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
+		}
+		else
+		{
+			$response = $this->request->curl->get( $key );
+		}
 
 		// todo check for errors and such
 
 		$responseData = json_decode( $response->getBody()->getContents() );
+
+		if ( ! isset( $responseData->collection ) && isset($responseData->{$key}) )
+		{
+			return ( new self( $this->request ) )->get( $filters, $responseData->{$key}, true );
+		}
+
 		$fetchedItems = $responseData->collection;
 
 		$items = collect( [] );

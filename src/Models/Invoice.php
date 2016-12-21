@@ -18,6 +18,7 @@ class Invoice extends Model
 		'paymentTerms',
 		'recipient',
 		'lines',
+	    'project'
 	];
 
 	public $draftInvoiceNumber;
@@ -28,6 +29,7 @@ class Invoice extends Model
 	public $date;
 	public $currency;
 	public $recipient;
+	public $project;
 
 	/** @var Customer */
 	public $customer;

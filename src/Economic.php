@@ -6,6 +6,7 @@ use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
+use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Utils\Request;
 
@@ -69,5 +70,13 @@ class Economic
 	public function draftInvoices()
 	{
 		return new DraftInvoiceBuilder($this->request);
+	}
+
+	/**
+	 * @return ProductBuilder()|Builder
+	 */
+	public function products()
+	{
+		return new ProductBuilder($this->request);
 	}
 }

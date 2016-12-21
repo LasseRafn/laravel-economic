@@ -46,11 +46,10 @@ class Builder
 
 	/**
 	 * @param array  $filters
-	 * @param string $subentity
 	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function get( $filters = [], $subentity = '' )
+	public function get( $filters = [] )
 	{
 		$urlFilters = '';
 

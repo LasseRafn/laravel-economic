@@ -19,22 +19,22 @@ class InvoiceBuilder extends Builder
 
 	public function getNotDue(array $filters = [])
 	{
-		return $this->get($filters, 'notDue');
+		return $this->get($filters, 'totals/booked/unpaid/notDue');
 	}
 
 	public function getOverdue(array $filters = [])
 	{
-		return $this->get($filters, 'overdue');
+		return $this->get($filters, 'totals/booked/unpaid/overdue');
 	}
 
 	public function getPaid(array $filters = [])
 	{
-		return $this->get($filters, 'paid');
+		return $this->get($filters, 'totals/booked/paid');
 	}
 
 	public function getUnpaid(array $filters = [])
 	{
-		return $this->get($filters, 'unpaid');
+		return $this->get($filters, 'totals/booked/unpaid');
 	}
 
 	public function getTotals(array $filters = [])

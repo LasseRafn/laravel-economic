@@ -3,6 +3,7 @@
 use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
+use LasseRafn\Economic\Builders\InvoiceBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
@@ -60,5 +61,13 @@ class Economic
 	public function paymentTerms()
 	{
 		return new PaymentTermBuilder($this->request);
+	}
+
+	/**
+	 * @return InvoiceBuilder|Builder
+	 */
+	public function invoices()
+	{
+		return new InvoiceBuilder($this->request);
 	}
 }

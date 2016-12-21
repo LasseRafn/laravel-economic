@@ -45,52 +45,46 @@ class Builder
 	}
 
 	/**
+	 * @param array  $filters
+	 * @param string $subentity
+	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function get( $filters = [], $key = '', $byKey = false )
+	public function get( $filters = [], $subentity = '' )
 	{
 		$urlFilters = '';
 
-		if( $key === '' && isset($this->defaultKey))
-		{
-			$key = $this->defaultKey;
-		}
 
-		if ( ! $byKey )
+		if ( count( $filters ) > 0 )
 		{
-			if ( count( $filters ) > 0 )
+			$urlFilters .= '?filters=';
+
+			$i = 1;
+			foreach ( $filters as $filter )
 			{
-				$urlFilters .= '?filters=';
+				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
 
-				$i = 1;
-				foreach ( $filters as $filter )
+				if ( count( $filters ) > $i )
 				{
-					$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
-
-					if ( count( $filters ) > $i )
-					{
-						$urlFilters .= '$and:'; // todo allow $or: also
-					}
-
-					$i ++;
+					$urlFilters .= '$and:'; // todo allow $or: also
 				}
-			}
 
-			$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
+				$i ++;
+			}
 		}
-		else
+
+		$url = $this->entity;
+
+		if( $subentity !== '')
 		{
-			$response = $this->request->curl->get( $key );
+			$url .= "/{$subentity}";
 		}
+
+		$response = $this->request->curl->get( "/{$url}{$urlFilters}" );
 
 		// todo check for errors and such
 
 		$responseData = json_decode( $response->getBody()->getContents() );
-
-		if ( ! isset( $responseData->collection ) && isset($responseData->{$key}) )
-		{
-			return ( new self( $this->request ) )->get( $filters, $responseData->{$key}, true );
-		}
 
 		$fetchedItems = $responseData->collection;
 
@@ -157,13 +151,13 @@ class Builder
 		return new $this->model( $this->request, $responseData );
 	}
 
-	private function escapeFilter($variable)
+	private function escapeFilter( $variable )
 	{
 		$escapedStrings = [];
 
-		foreach($escapedStrings as $escapedString)
+		foreach ( $escapedStrings as $escapedString )
 		{
-			$variable = str_replace($escapedString, "${$escapedString}", $variable); // okay, this is not pretty.. But will do for now. todo fix it
+			$variable = str_replace( $escapedString, "${$escapedString}", $variable ); // okay, this is not pretty.. But will do for now. todo fix it
 		}
 
 		return $variable;

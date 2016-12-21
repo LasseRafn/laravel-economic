@@ -6,7 +6,6 @@ class InvoiceBuilder extends Builder
 {
 	protected $entity = 'invoices';
 	protected $model = Invoice::class;
-	protected $defaultKey = 'self';
 
 	public function getDrafts(array $filters = [])
 	{

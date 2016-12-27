@@ -14,7 +14,6 @@ class Product extends Model
 	    'description',
 	    'recommendedPrice',
 	    'salesPrice',
-	    'unit',
 	    'costPrice'
 	];
 }

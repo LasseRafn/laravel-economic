@@ -61,7 +61,7 @@ class DraftInvoice extends Model
 
 		if ( isset( $product->unit ) )
 		{
-			$line->unit = $product->unit);
+			$line->unit = $product->unit;
 		}
 
 		$this->lines[] = $line;

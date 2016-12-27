@@ -58,7 +58,11 @@ class DraftInvoice extends Model
 		$line->unitNetPrice   = $product->salesPrice;
 		$line->unitCostPrice  = $product->costPrice;
 		$line->totalNetAmount = $quantity * $product->salesPrice;
-		$line->unit           = $product->unit;
+
+		if ( isset( $product->unit ) )
+		{
+			$line->unit = $product->unit);
+		}
 
 		$this->lines[] = $line;
 	}

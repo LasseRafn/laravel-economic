@@ -10,6 +10,11 @@ class Product extends Model
 		'productNumber',
 	    'name',
 	    'self',
-	    'unit'
+	    'unit',
+	    'description',
+	    'recommendedPrice',
+	    'salesPrice',
+	    'unit',
+	    'costPrice'
 	];
 }

@@ -52,9 +52,13 @@ class DraftInvoice extends Model
 	{
 		$line = new \stdClass();
 
-		$line->description = $description;
-		$line->quantity    = $quantity;
-		$line->product     = $product;
+		$line->description    = $description;
+		$line->quantity       = $quantity;
+		$line->product        = $product;
+		$line->unitNetPrice   = $product->salesPrice;
+		$line->unitCostPrice  = $product->costPrice;
+		$line->totalNetAmount = $quantity * $product->salesPrice;
+		$line->unit           = $product->unit;
 
 		$this->lines[] = $line;
 	}

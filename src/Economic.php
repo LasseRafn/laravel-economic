@@ -8,6 +8,7 @@ use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
+use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Utils\Request;
 
@@ -87,5 +88,13 @@ class Economic
 	public function productGroups()
 	{
 		return new ProductGroupBuilder($this->request);
+	}
+
+	/**
+	 * @return UnitBuilder()|Builder
+	 */
+	public function units()
+	{
+		return new UnitBuilder($this->request);
 	}
 }

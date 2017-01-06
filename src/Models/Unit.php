@@ -7,7 +7,7 @@ class Unit extends Model
 	protected $entity   = 'units';
 	protected $primaryKey = 'unitNumber';
 	protected $fillable = [
-		'vatZoneNumber',
+		'unitNumber',
 	    'name',
 	    'self'
 	];

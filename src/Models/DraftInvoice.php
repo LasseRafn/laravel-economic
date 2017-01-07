@@ -67,15 +67,22 @@ class DraftInvoice extends Model
 		$this->lines[] = $line;
 	}
 
-	public function book()
+	public function book( $number = null )
 	{
-		return $this->request->curl->post( 'invoices/booked', [
-			'json' => [
-				'draftInvoice' => [
-					'self'               => $this->self,
-					'draftInvoiceNumber' => $this->draftInvoiceNumber
-				]
+		$data = [
+			'draftInvoice' => [
+				'self'               => $this->self,
+				'draftInvoiceNumber' => $this->draftInvoiceNumber
 			]
+		];
+
+		if ( $number !== null )
+		{
+			$data['bookWithNumber'] = $number;
+		}
+
+		return $this->request->curl->post( 'invoices/booked', [
+			'json' => $data
 		] );
 	}
 }

@@ -1,5 +1,6 @@
 <?php namespace LasseRafn\Economic;
 
+use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
@@ -72,6 +73,14 @@ class Economic
 	public function draftInvoices()
 	{
 		return new DraftInvoiceBuilder($this->request);
+	}
+
+	/**
+	 * @return BookedInvoiceBuilder|Builder
+	 */
+	public function bookedInvoices()
+	{
+		return new BookedInvoiceBuilder($this->request);
 	}
 
 	/**

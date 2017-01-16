@@ -45,7 +45,7 @@ class Builder
 	}
 
 	/**
-	 * @param array  $filters
+	 * @param array $filters
 	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
@@ -145,18 +145,18 @@ class Builder
 	private function escapeFilter( $variable )
 	{
 		$escapedStrings = [
-			"\$",
-		    '(',
-		    ')',
-		    '*',
-		    '[',
-		    ']',
-		    ',',
+			"$",
+			'(',
+			')',
+			'*',
+			'[',
+			']',
+			',',
 		];
 
 		foreach ( $escapedStrings as $escapedString )
 		{
-			$variable = str_replace( $escapedString, "${$escapedString}", $variable );
+			$variable = str_replace( $escapedString, '$' . $escapedString, $variable );
 		}
 
 		return $variable;

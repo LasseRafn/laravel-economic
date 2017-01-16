@@ -22,7 +22,7 @@ class Product extends Model
 	public $self;
 	public $unit;
 	public $description;
-	public $recommendedPrice;
-	public $salesPrice;
-	public $costPrice;
+	public $recommendedPrice = 0;
+	public $salesPrice = 0;
+	public $costPrice = 0;
 }

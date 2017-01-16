@@ -148,7 +148,7 @@ class Builder
 
 		foreach ( $escapedStrings as $escapedString )
 		{
-			$variable = str_replace( $escapedString, "${$escapedString}", $variable ); // okay, this is not pretty.. But will do for now. todo fix it
+			$variable = urlencode(str_replace( $escapedString, "${$escapedString}", $variable )); // okay, this is not pretty.. But will do for now. todo fix it
 		}
 
 		return $variable;

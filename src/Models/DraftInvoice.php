@@ -57,7 +57,7 @@ class DraftInvoice extends Model
 		$line = new \stdClass();
 
 		$line->description = $description;
-		$line->quantity    = $quantity;
+		$line->quantity    = number_format( $quantity, 2 );
 		$line->product     = $product;
 		if ( $product !== null )
 		{

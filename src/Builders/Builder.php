@@ -145,7 +145,7 @@ class Builder
 	private function escapeFilter( $variable )
 	{
 		$escapedStrings = [
-			'$',
+			"\$",
 		    '(',
 		    ')',
 		    '*',

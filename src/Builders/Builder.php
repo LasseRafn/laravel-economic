@@ -144,11 +144,19 @@ class Builder
 
 	private function escapeFilter( $variable )
 	{
-		$escapedStrings = [];
+		$escapedStrings = [
+			'$',
+		    '(',
+		    ')',
+		    '*',
+		    '[',
+		    ']',
+		    ',',
+		];
 
 		foreach ( $escapedStrings as $escapedString )
 		{
-			$variable = urlencode(str_replace( $escapedString, "${$escapedString}", $variable )); // okay, this is not pretty.. But will do for now. todo fix it
+			$variable = str_replace( $escapedString, "${$escapedString}", $variable );
 		}
 
 		return $variable;

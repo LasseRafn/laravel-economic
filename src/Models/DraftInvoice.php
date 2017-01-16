@@ -18,7 +18,8 @@ class DraftInvoice extends Model
 		'paymentTerms',
 		'recipient',
 		'lines',
-		'project'
+		'project',
+		'notes'
 	];
 
 	public $draftInvoiceNumber;
@@ -33,6 +34,9 @@ class DraftInvoice extends Model
 
 	/** @var Customer */
 	public $customer;
+
+	/** @var \stdClass|array */
+	public $notes;
 
 	/** @var Layout */
 	public $layout;

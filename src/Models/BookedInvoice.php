@@ -18,7 +18,8 @@ class BookedInvoice extends Model
 		'paymentTerms',
 		'recipient',
 		'lines',
-		'project'
+		'project',
+		'notes'
 	];
 
 	public $bookedInvoiceNumber;
@@ -33,6 +34,9 @@ class BookedInvoice extends Model
 
 	/** @var Customer */
 	public $customer;
+
+	/** @var \stdClass|array */
+	public $notes;
 
 	/** @var Layout */
 	public $layout;

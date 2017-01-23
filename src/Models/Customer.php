@@ -31,7 +31,11 @@ class Customer extends Model
 	    'telephoneAndFaxNumber',
 	    'zip',
 	    'email',
-	    'self'
+	    'self',
+	    'attention',
+	    'ean',
+	    'layout',
+	    'salesPerson',
 	];
 
 	public $customerNumber;
@@ -55,6 +59,10 @@ class Customer extends Model
 	public $invoices;
 	public $self;
 	public $email;
+	public $attention;
+	public $ean;
+	public $layout;
+	public $salesPerson;
 
 	/** @var PaymentTerm */
 	public $paymentTerms;

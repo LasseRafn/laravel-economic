@@ -41,6 +41,11 @@ class Builder
 		$responseData = json_decode( $response->getBody()->getContents() );
 		$fetchedItems = $responseData->collection;
 
+		if(count($fetchedItems) === 0)
+		{
+			return null;
+		}
+
 		return new $this->model( $this->request, $fetchedItems[0] );
 	}
 

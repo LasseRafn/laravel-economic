@@ -5,6 +5,7 @@ use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
+use LasseRafn\Economic\Builders\EmployeeBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
@@ -105,5 +106,13 @@ class Economic
 	public function units()
 	{
 		return new UnitBuilder($this->request);
+	}
+
+	/**
+	 * @return EmployeeBuilder()|Builder
+	 */
+	public function employees()
+	{
+		return new EmployeeBuilder($this->request);
 	}
 }

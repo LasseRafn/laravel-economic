@@ -157,12 +157,21 @@ class Builder
 			'[',
 			']',
 			',',
+		];
+
+		$urlencodedStrings = [
 			'+',
+			' ',
 		];
 
 		foreach ( $escapedStrings as $escapedString )
 		{
 			$variable = str_replace( $escapedString, '$' . $escapedString, $variable );
+		}
+
+		foreach ( $urlencodedStrings as $urlencodedString )
+		{
+			$variable = str_replace( $urlencodedString, urlencode($urlencodedString), $variable );
 		}
 
 		return $variable;

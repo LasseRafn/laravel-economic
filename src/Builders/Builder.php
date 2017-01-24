@@ -157,6 +157,7 @@ class Builder
 			'[',
 			']',
 			',',
+			'+',
 		];
 
 		foreach ( $escapedStrings as $escapedString )

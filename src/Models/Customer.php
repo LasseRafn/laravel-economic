@@ -36,6 +36,7 @@ class Customer extends Model
 	    'ean',
 	    'layout',
 	    'salesPerson',
+	    'customerContact',
 	];
 
 	public $customerNumber;
@@ -63,6 +64,7 @@ class Customer extends Model
 	public $ean;
 	public $layout;
 	public $salesPerson;
+	public $customerContact;
 
 	/** @var PaymentTerm */
 	public $paymentTerms;

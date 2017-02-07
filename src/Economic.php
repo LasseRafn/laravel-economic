@@ -18,14 +18,25 @@ class Economic
 {
 	protected $request;
 
-	public function __construct($agreement = '')
+	public function __construct( $agreement = '' )
 	{
-		$this->request = new Request($agreement);
+		$this->request = new Request( $agreement );
 	}
 
-	public function getAuthUrl()
+	public function getApiTokenFromUrl()
 	{
-		return config('economic.auth_endpoint') . config('economic.public_token');
+		return $_GET['token'] ?? null;
+	}
+
+	public function getAuthUrl( $redirectUrl = '' )
+	{
+		if ( $redirectUrl !== '' )
+		{
+			$redirectUrl = urlencode( $redirectUrl );
+			$redirectUrl = "&redirectUrl={$redirectUrl}";
+		}
+
+		return config( 'economic.auth_endpoint' ) . config( 'economic.public_token' ) . $redirectUrl;
 	}
 
 	/**
@@ -33,7 +44,7 @@ class Economic
 	 */
 	public function customers()
 	{
-		return new CustomerBuilder($this->request);
+		return new CustomerBuilder( $this->request );
 	}
 
 	/**
@@ -41,7 +52,7 @@ class Economic
 	 */
 	public function customersGroups()
 	{
-		return new CustomerGroupBuilder($this->request);
+		return new CustomerGroupBuilder( $this->request );
 	}
 
 	/**
@@ -49,7 +60,7 @@ class Economic
 	 */
 	public function layouts()
 	{
-		return new LayoutBuilder($this->request);
+		return new LayoutBuilder( $this->request );
 	}
 
 	/**
@@ -57,7 +68,7 @@ class Economic
 	 */
 	public function vatZones()
 	{
-		return new VatZoneBuilder($this->request);
+		return new VatZoneBuilder( $this->request );
 	}
 
 	/**
@@ -65,7 +76,7 @@ class Economic
 	 */
 	public function paymentTerms()
 	{
-		return new PaymentTermBuilder($this->request);
+		return new PaymentTermBuilder( $this->request );
 	}
 
 	/**
@@ -73,7 +84,7 @@ class Economic
 	 */
 	public function draftInvoices()
 	{
-		return new DraftInvoiceBuilder($this->request);
+		return new DraftInvoiceBuilder( $this->request );
 	}
 
 	/**
@@ -81,7 +92,7 @@ class Economic
 	 */
 	public function bookedInvoices()
 	{
-		return new BookedInvoiceBuilder($this->request);
+		return new BookedInvoiceBuilder( $this->request );
 	}
 
 	/**
@@ -89,7 +100,7 @@ class Economic
 	 */
 	public function products()
 	{
-		return new ProductBuilder($this->request);
+		return new ProductBuilder( $this->request );
 	}
 
 	/**
@@ -97,7 +108,7 @@ class Economic
 	 */
 	public function productGroups()
 	{
-		return new ProductGroupBuilder($this->request);
+		return new ProductGroupBuilder( $this->request );
 	}
 
 	/**
@@ -105,7 +116,7 @@ class Economic
 	 */
 	public function units()
 	{
-		return new UnitBuilder($this->request);
+		return new UnitBuilder( $this->request );
 	}
 
 	/**
@@ -113,6 +124,6 @@ class Economic
 	 */
 	public function employees()
 	{
-		return new EmployeeBuilder($this->request);
+		return new EmployeeBuilder( $this->request );
 	}
 }

@@ -5,7 +5,7 @@ use LasseRafn\Economic\Utils\Request;
 
 class VoucherBuilder extends Builder
 {
-	protected $entity = '/accounting-years/:accountingYear/vouchers';
+	protected $entity = 'accounting-years/:accountingYear/vouchers';
 	protected $model  = Voucher::class;
 
 	public function __construct( Request $request, $year )

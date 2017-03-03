@@ -11,6 +11,7 @@ use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
+use LasseRafn\Economic\Builders\SingleBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Utils\Request;
@@ -129,7 +130,7 @@ class Economic
 	}
 
 	/**
-	 * @return EntryBuilder()|Builder
+	 * @return EntryBuilder()|SingleBuilder
 	 */
 	public function entries()
 	{

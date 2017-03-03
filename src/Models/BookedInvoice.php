@@ -21,7 +21,9 @@ class BookedInvoice extends Model
 		'project',
 		'notes',
 		'grossAmount',
-		'netAmount'
+		'netAmount',
+		'remainder',
+		'remainderInBaseCurrency'
 	];
 
 	public $bookedInvoiceNumber;
@@ -35,6 +37,8 @@ class BookedInvoice extends Model
 	public $project;
 	public $grossAmount;
 	public $netAmount;
+	public $remainder;
+	public $remainderInBaseCurrency;
 
 	/** @var Customer */
 	public $customer;

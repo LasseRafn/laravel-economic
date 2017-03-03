@@ -6,6 +6,7 @@ use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\EmployeeBuilder;
+use LasseRafn\Economic\Builders\EntryBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
@@ -125,5 +126,13 @@ class Economic
 	public function employees()
 	{
 		return new EmployeeBuilder( $this->request );
+	}
+
+	/**
+	 * @return EntryBuilder()|Builder
+	 */
+	public function entries()
+	{
+		return new EntryBuilder( $this->request );
 	}
 }

@@ -132,8 +132,8 @@ class Economic
 	/**
 	 * @return EntryBuilder()|SingleBuilder
 	 */
-	public function entries()
-	{
-		return new EntryBuilder( $this->request );
-	}
+//	public function entries()
+//	{
+//		return new EntryBuilder( $this->request );
+//	}
 }

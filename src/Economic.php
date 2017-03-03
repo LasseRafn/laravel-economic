@@ -1,5 +1,6 @@
 <?php namespace LasseRafn\Economic;
 
+use LasseRafn\Economic\Builders\AccountingYearBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
@@ -14,6 +15,7 @@ use LasseRafn\Economic\Builders\ProductGroupBuilder;
 use LasseRafn\Economic\Builders\SingleBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
+use LasseRafn\Economic\Builders\VoucherBuilder;
 use LasseRafn\Economic\Utils\Request;
 
 class Economic
@@ -127,6 +129,36 @@ class Economic
 	public function employees()
 	{
 		return new EmployeeBuilder( $this->request );
+	}
+
+	/**
+	 * @param int|null $year
+	 *
+	 * @return AccountingYearBuilder()|Builder
+	 */
+	public function accountingYear( $year = null )
+	{
+		if ( $year === null )
+		{
+			$year = (int) date( 'Y' );
+		}
+
+		return new AccountingYearBuilder( $this->request, $year );
+	}
+
+	/**
+	 * @param int|null $year
+	 *
+	 * @return VoucherBuilder()|Builder
+	 */
+	public function accountingYearVouchers( $year = null )
+	{
+		if ( $year === null )
+		{
+			$year = (int) date( 'Y' );
+		}
+
+		return new VoucherBuilder( $this->request, $year );
 	}
 
 	/**

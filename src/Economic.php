@@ -161,6 +161,10 @@ class Economic
 		return new VoucherBuilder( $this->request, $year );
 	}
 
+	public function downloadInvoice($directUrl) {
+		return $this->request->curl->get($directUrl)->getBody()->getContents();
+	}
+
 	/**
 	 * @return EntryBuilder()|SingleBuilder
 	 */

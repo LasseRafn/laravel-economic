@@ -41,7 +41,7 @@ class Builder
 		$responseData = json_decode( $response->getBody()->getContents() );
 		$fetchedItems = $responseData->collection;
 
-		if(count($fetchedItems) === 0)
+		if ( count( $fetchedItems ) === 0 )
 		{
 			return null;
 		}
@@ -97,18 +97,40 @@ class Builder
 	}
 
 	/**
+	 * @param array $filters
+	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function all()
+	public function all( $filters = [] )
 	{
 		$page     = 0;
 		$pagesize = 500; // Yes, we could move this to 1000, but honestly I'd rather send two requests than stall their servers.
 		$hasMore  = true;
 		$items    = collect( [] );
 
+		$urlFilters = '';
+
+		if ( count( $filters ) > 0 )
+		{
+			$urlFilters .= '&filter=';
+
+			$i = 1;
+			foreach ( $filters as $filter )
+			{
+				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+
+				if ( count( $filters ) > $i )
+				{
+					$urlFilters .= '$and:'; // todo allow $or: also
+				}
+
+				$i ++;
+			}
+		}
+
 		while ( $hasMore )
 		{
-			$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pagesize}" );
+			$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}" );
 
 			// todo check for errors and such
 
@@ -171,7 +193,7 @@ class Builder
 
 		foreach ( $urlencodedStrings as $urlencodedString )
 		{
-			$variable = str_replace( $urlencodedString, urlencode($urlencodedString), $variable );
+			$variable = str_replace( $urlencodedString, urlencode( $urlencodedString ), $variable );
 		}
 
 		return $variable;

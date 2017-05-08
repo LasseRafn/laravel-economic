@@ -42,6 +42,8 @@ class Economic
 		$this->agreement = $agreement;
 
 		$this->initRequest();
+
+		return $this;
 	}
 
 	public function setApiSecret( $apiSecret = '' )
@@ -49,11 +51,15 @@ class Economic
 		$this->apiSecret = $apiSecret;
 
 		$this->initRequest();
+
+		return $this;
 	}
 
 	public function setApiPublicToken( $apiPublic = '' )
 	{
 		$this->apiPublic = $apiPublic;
+
+		return $this;
 	}
 
 	public function getApiTokenFromUrl()

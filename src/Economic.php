@@ -22,9 +22,28 @@ class Economic
 {
 	protected $request;
 
-	public function __construct( $agreement = '' )
+	private $agreement;
+
+	private $apiSecret;
+
+	public function __construct( $agreement = '', $apiSecret = null )
 	{
-		$this->request = new Request( $agreement );
+		$this->agreement = $agreement;
+		$this->apiSecret = $apiSecret ?: config('economic.secret_token');
+
+		$this->initRequest();
+	}
+
+	public function setAgreement($agreement = ''){
+		$this->agreement = $agreement;
+
+		$this->initRequest();
+	}
+
+	public function setApiSecret($apiSecret = ''){
+		$this->apiSecret = $apiSecret;
+
+		$this->initRequest();
 	}
 
 	public function getApiTokenFromUrl()
@@ -163,6 +182,10 @@ class Economic
 
 	public function downloadInvoice($directUrl) {
 		return $this->request->curl->get($directUrl)->getBody()->getContents();
+	}
+
+	private function initRequest() {
+		$this->request = new Request( $this->agreement, $this->apiSecret );
 	}
 
 	/**

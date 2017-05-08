@@ -101,10 +101,10 @@ class Builder
 	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function all( $filters = [] )
+	public function all( $filters = [], $pageSize = 500 )
 	{
 		$page     = 0;
-		$pagesize = 500; // Yes, we could move this to 1000, but honestly I'd rather send two requests than stall their servers.
+		$pagesize = $pageSize;
 		$hasMore  = true;
 		$items    = collect( [] );
 
@@ -201,8 +201,6 @@ class Builder
 
 	private function switchComparison( $comparison )
 	{
-		$newComparison = '';
-
 		switch ( $comparison )
 		{
 			case '=':

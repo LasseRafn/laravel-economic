@@ -7,12 +7,12 @@ class Request
 {
 	public    $curl;
 
-	public function __construct($agreementToken = '')
+	public function __construct($agreementToken = '', $apiSecret = '')
 	{
 		$this->curl = new Client( [
 			'base_uri' => config('economic.request_endpoint'),
 		    'headers' => [
-		    	'X-AppSecretToken' => config('economic.secret_token'),
+		    	'X-AppSecretToken' => $apiSecret,
 		        'X-AgreementGrantToken' => $agreementToken,
 		        'Content-Type' => 'application/json'
 		    ]

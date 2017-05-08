@@ -26,24 +26,34 @@ class Economic
 
 	private $apiSecret;
 
-	public function __construct( $agreement = '', $apiSecret = null )
+	private $apiPublic;
+
+	public function __construct( $agreement = '', $apiSecret = null, $apiPublic = null )
 	{
 		$this->agreement = $agreement;
-		$this->apiSecret = $apiSecret ?: config('economic.secret_token');
+		$this->apiSecret = $apiSecret ?: config( 'economic.secret_token' );
+		$this->apiPublic = $apiPublic ?: config( 'economic.public_token' );
 
 		$this->initRequest();
 	}
 
-	public function setAgreement($agreement = ''){
+	public function setAgreement( $agreement = '' )
+	{
 		$this->agreement = $agreement;
 
 		$this->initRequest();
 	}
 
-	public function setApiSecret($apiSecret = ''){
+	public function setApiSecret( $apiSecret = '' )
+	{
 		$this->apiSecret = $apiSecret;
 
 		$this->initRequest();
+	}
+
+	public function setApiPublicToken( $apiPublic = '' )
+	{
+		$this->apiPublic = $apiPublic;
 	}
 
 	public function getApiTokenFromUrl()
@@ -55,11 +65,10 @@ class Economic
 	{
 		if ( $redirectUrl !== '' )
 		{
-			$redirectUrl = urlencode( $redirectUrl );
-			$redirectUrl = "&redirectUrl={$redirectUrl}";
+			$redirectUrl = '&redirectUrl=' . urlencode( $redirectUrl );
 		}
 
-		return config( 'economic.auth_endpoint' ) . config( 'economic.public_token' ) . $redirectUrl;
+		return config( 'economic.auth_endpoint' ) . $this->apiPublic . $redirectUrl;
 	}
 
 	/**
@@ -180,11 +189,13 @@ class Economic
 		return new VoucherBuilder( $this->request, $year );
 	}
 
-	public function downloadInvoice($directUrl) {
-		return $this->request->curl->get($directUrl)->getBody()->getContents();
+	public function downloadInvoice( $directUrl )
+	{
+		return $this->request->curl->get( $directUrl )->getBody()->getContents();
 	}
 
-	private function initRequest() {
+	private function initRequest()
+	{
 		$this->request = new Request( $this->agreement, $this->apiSecret );
 	}
 

@@ -4,6 +4,7 @@ namespace LasseRafn\Economic\Utils;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use LasseRafn\Economic\Exceptions\EconomicClientException;
 use LasseRafn\Economic\Exceptions\EconomicRequestException;
 
 class Request
@@ -36,7 +37,7 @@ class Request
 				$message = json_decode( $exception->getResponse()->getBody()->getContents() );
 			}
 
-			throw new EconomicRequestException( $message, $exception->getCode(), $exception->getPrevious() );
+			throw new EconomicRequestException( $message );
 		} catch ( ServerException $exception )
 		{
 			$message = $exception->getMessage();
@@ -46,12 +47,12 @@ class Request
 				$message = json_decode( $exception->getResponse()->getBody()->getContents() );
 			}
 
-			throw new EconomicRequestException( $message, $exception->getCode(), $exception->getPrevious() );
+			throw new EconomicRequestException( $message );
 		} catch ( \Exception $exception )
 		{
 			$message = $exception->getMessage();
 
-			throw new EconomicRequestException( $message, $exception->getCode(), $exception->getPrevious() );
+			throw new EconomicClientException( $message );
 		}
 	}
 }

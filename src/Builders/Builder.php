@@ -11,7 +11,7 @@ class Builder
 	/** @var Model */
 	protected $model;
 
-	function __construct( Request $request )
+	public function __construct( Request $request )
 	{
 		$this->request = $request;
 	}
@@ -23,30 +23,33 @@ class Builder
 	 */
 	public function find( $id )
 	{//todo test
-		$response = $this->request->curl->get( "/{$this->entity}/{$id}" );
 
-		// todo check for errors and such
+		return $this->request->handleWithExceptions( function () use ( $id )
+		{
+			$response = $this->request->curl->get( "/{$this->entity}/{$id}" );
 
-		$responseData = json_decode( $response->getBody()->getContents() );
+			$responseData = json_decode( $response->getBody()->getContents() );
 
-		return new $this->model( $this->request, $responseData );
+			return new $this->model( $this->request, $responseData );
+		} );
 	}
 
 	public function first()
 	{
-		$response = $this->request->curl->get( "/{$this->entity}?skippages=0&pagesize=1" );
-
-		// todo check for errors and such
-
-		$responseData = json_decode( $response->getBody()->getContents() );
-		$fetchedItems = $responseData->collection;
-
-		if ( count( $fetchedItems ) === 0 )
+		return $this->request->handleWithExceptions( function ()
 		{
-			return null;
-		}
+			$response = $this->request->curl->get( "/{$this->entity}?skippages=0&pagesize=1" );
 
-		return new $this->model( $this->request, $fetchedItems[0] );
+			$responseData = json_decode( $response->getBody()->getContents() );
+			$fetchedItems = $responseData->collection;
+
+			if ( count( $fetchedItems ) === 0 )
+			{
+				return null;
+			}
+
+			return new $this->model( $this->request, $fetchedItems[0] );
+		} );
 	}
 
 	/**
@@ -76,24 +79,25 @@ class Builder
 			}
 		}
 
-		$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
-
-		// todo check for errors and such
-
-		$responseData = json_decode( $response->getBody()->getContents() );
-
-		$fetchedItems = $responseData->collection;
-
-		$items = collect( [] );
-		foreach ( $fetchedItems as $item )
+		return $this->request->handleWithExceptions( function () use ( $urlFilters )
 		{
-			/** @var Model $model */
-			$model = new $this->model( $this->request, $item );
+			$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
 
-			$items->push( $model );
-		}
+			$responseData = json_decode( $response->getBody()->getContents() );
 
-		return $items;
+			$fetchedItems = $responseData->collection;
+
+			$items = collect( [] );
+			foreach ( $fetchedItems as $item )
+			{
+				/** @var Model $model */
+				$model = new $this->model( $this->request, $item );
+
+				$items->push( $model );
+			}
+
+			return $items;
+		} );
 	}
 
 	/**
@@ -128,45 +132,49 @@ class Builder
 			}
 		}
 
-		while ( $hasMore )
+		return $this->request->handleWithExceptions( function () use ( &$hasMore, $pagesize, &$page, &$items, $urlFilters )
 		{
-			$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}" );
-
-			// todo check for errors and such
-
-			$responseData = json_decode( $response->getBody()->getContents() );
-			$fetchedItems = $responseData->collection;
-
-			if ( count( $fetchedItems ) == 0 )
+			while ( $hasMore )
 			{
-				$hasMore = false;
+				$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}" );
 
-				break;
+				$responseData = json_decode( $response->getBody()->getContents() );
+				$fetchedItems = $responseData->collection;
+
+				if ( count( $fetchedItems ) === 0 )
+				{
+					$hasMore = false;
+
+					break;
+				}
+
+				foreach ( $fetchedItems as $item )
+				{
+					/** @var Model $model */
+					$model = new $this->model( $this->request, $item );
+
+					$items->push( $model );
+				}
+
+				$page ++;
 			}
 
-			foreach ( $fetchedItems as $item )
-			{
-				/** @var Model $model */
-				$model = new $this->model( $this->request, $item );
-
-				$items->push( $model );
-			}
-
-			$page ++;
-		}
-
-		return $items;
+			return $items;
+		} );
 	}
 
 	public function create( $data )
 	{
-		$response = $this->request->curl->post( "/{$this->entity}", [
-			'json' => $data
-		] );
+		return $this->request->handleWithExceptions( function () use ( $data )
+		{
+			$response = $this->request->curl->post( "/{$this->entity}", [
+				'json' => $data
+			] );
 
-		$responseData = json_decode( $response->getBody()->getContents() );
+			$responseData = json_decode( $response->getBody()->getContents() );
 
-		return new $this->model( $this->request, $responseData );
+			return new $this->model( $this->request, $responseData );
+		} );
 	}
 
 	private function escapeFilter( $variable )

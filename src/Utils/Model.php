@@ -5,7 +5,7 @@ class Model
 	protected $entity;
 	protected $primaryKey;
 	protected $modelClass = self::class;
-	protected $fillable   = [  ];
+	protected $fillable   = [];
 
 	/**
 	 * @var Request
@@ -18,26 +18,26 @@ class Model
 
 		foreach ( $this->fillable as $fillable )
 		{
-			if ( is_array($data) && isset( $data[ $fillable ] ) )
+			if ( is_array( $data ) && isset( $data[ $fillable ] ) )
 			{
-				if(!method_exists($this, 'set' . ucfirst(camel_case($fillable)) . 'Attribute' ))
+				if ( ! method_exists( $this, 'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute' ) )
 				{
-					$this->setAttribute($fillable, $data[$fillable]);
+					$this->setAttribute( $fillable, $data[ $fillable ] );
 				}
 				else
 				{
-					$this->setAttribute($fillable, $this->{'set' . ucfirst(camel_case($fillable)) . 'Attribute'}($data[$fillable]));
+					$this->setAttribute( $fillable, $this->{'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute'}( $data[ $fillable ] ) );
 				}
 			}
-			elseif(is_object($data) && isset( $data->{$fillable} ))
+			elseif ( is_object( $data ) && isset( $data->{$fillable} ) )
 			{
-				if(!method_exists($this, 'set' . ucfirst(camel_case($fillable)) . 'Attribute' ))
+				if ( ! method_exists( $this, 'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute' ) )
 				{
-					$this->setAttribute($fillable, $data->{$fillable});
+					$this->setAttribute( $fillable, $data->{$fillable} );
 				}
 				else
 				{
-					$this->setAttribute($fillable, $this->{'set' . ucfirst(camel_case($fillable)) . 'Attribute'}($data->{$fillable}));
+					$this->setAttribute( $fillable, $this->{'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute'}( $data->{$fillable} ) );
 				}
 			}
 		}
@@ -45,18 +45,18 @@ class Model
 
 	function __toString()
 	{
-		return json_encode($this->toArray());
+		return json_encode( $this->toArray() );
 	}
 
 	function toArray()
 	{
 		$data = [];
 
-		foreach($this->fillable as $fillable)
+		foreach ( $this->fillable as $fillable )
 		{
-			if( isset($this->{$fillable}))
+			if ( isset( $this->{$fillable} ) )
 			{
-				$data[$fillable] = $this->{$fillable};
+				$data[ $fillable ] = $this->{$fillable};
 			}
 		}
 
@@ -70,17 +70,23 @@ class Model
 
 	public function delete()
 	{
-		return $this->request->curl->delete("/{$this->entity}/{$this->{$this->primaryKey}}");
+		return $this->request->handleWithExceptions( function ()
+		{
+			return $this->request->curl->delete( "/{$this->entity}/{$this->{$this->primaryKey}}" );
+		} );
 	}
 
-	public function update($data = [])
+	public function update( $data = [] )
 	{
-		$response = $this->request->curl->put("/{$this->entity}/{$this->{$this->primaryKey}}", [
-			'json' => $data
-		]);
+		return $this->request->handleWithExceptions( function () use ( $data )
+		{
+			$response = $this->request->curl->put( "/{$this->entity}/{$this->{$this->primaryKey}}", [
+				'json' => $data
+			] );
 
-		$responseData     = json_decode( $response->getBody()->getContents() );
+			$responseData = json_decode( $response->getBody()->getContents() );
 
-		return new $this->modelClass($this->request, $responseData);
+			return new $this->modelClass( $this->request, $responseData );
+		} );
 	}
 }

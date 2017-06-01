@@ -31,28 +31,33 @@ class Request
 		} catch ( ClientException $exception )
 		{
 			$message = $exception->getMessage();
+			$code = $exception->getCode();
 
 			if ( $exception->hasResponse() )
 			{
 				$message = json_decode( $exception->getResponse()->getBody()->getContents() );
+				$code = $exception->getResponse()->getStatusCode();
 			}
 
-			throw new EconomicRequestException( $message );
+			throw new EconomicRequestException( $message, $code );
 		} catch ( ServerException $exception )
 		{
 			$message = $exception->getMessage();
+			$code = $exception->getCode();
 
 			if ( $exception->hasResponse() )
 			{
 				$message = json_decode( $exception->getResponse()->getBody()->getContents() );
+				$code = $exception->getResponse()->getStatusCode();
 			}
 
-			throw new EconomicRequestException( $message );
+			throw new EconomicRequestException( $message, $code );
 		} catch ( \Exception $exception )
 		{
 			$message = $exception->getMessage();
+			$code = $exception->getCode();
 
-			throw new EconomicClientException( $message );
+			throw new EconomicClientException( $message, $code );
 		}
 	}
 }

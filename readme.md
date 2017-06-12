@@ -1,6 +1,16 @@
 ## Laravel Economic REST wrapper
 
-#Installation
+------
+
+### I'm working on a v2
+
+Tested, easier to use and with all REST endpoints available.
+
+*Also, framework agnostic w/ Laravel Facade + config for the Laravel users.*
+
+------
+
+# Installation
 
 1. Require using composer
 ````

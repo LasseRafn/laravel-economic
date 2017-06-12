@@ -14,6 +14,7 @@ use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
 use LasseRafn\Economic\Builders\SingleBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
+use LasseRafn\Economic\Builders\UserBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Builders\VoucherBuilder;
 use LasseRafn\Economic\Utils\Request;
@@ -163,6 +164,16 @@ class Economic
 	public function employees()
 	{
 		return new EmployeeBuilder( $this->request );
+	}
+
+	/**
+	 * @return UserBuilder()|Builder
+	 *
+	 * WARNING: Undocumented endpoint!
+	 */
+	public function users()
+	{
+		return new UserBuilder( $this->request );
 	}
 
 	/**

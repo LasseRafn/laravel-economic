@@ -12,43 +12,33 @@ class Model
 	 */
 	protected $request;
 
-	function __construct( Request $request, $data = [] )
+	public function __construct( Request $request, $data = [] )
 	{
 		$this->request = $request;
 
-		foreach ( $this->fillable as $fillable )
+		$data = (array) $data;
+
+		foreach ( $data as $key => $value )
 		{
-			if ( is_array( $data ) && isset( $data[ $fillable ] ) )
+			$customSetterMethod = 'set' . ucfirst( camel_case( $key ) ) . 'Attribute';
+
+			if ( ! method_exists( $this, $customSetterMethod ) )
 			{
-				if ( ! method_exists( $this, 'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute' ) )
-				{
-					$this->setAttribute( $fillable, $data[ $fillable ] );
-				}
-				else
-				{
-					$this->setAttribute( $fillable, $this->{'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute'}( $data[ $fillable ] ) );
-				}
+				$this->setAttribute( $key, $value );
 			}
-			elseif ( is_object( $data ) && isset( $data->{$fillable} ) )
+			else
 			{
-				if ( ! method_exists( $this, 'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute' ) )
-				{
-					$this->setAttribute( $fillable, $data->{$fillable} );
-				}
-				else
-				{
-					$this->setAttribute( $fillable, $this->{'set' . ucfirst( camel_case( $fillable ) ) . 'Attribute'}( $data->{$fillable} ) );
-				}
+				$this->setAttribute( $key, $this->{$customSetterMethod}( $value ) );
 			}
 		}
 	}
 
-	function __toString()
+	public function __toString()
 	{
 		return json_encode( $this->toArray() );
 	}
 
-	function toArray()
+	public function toArray()
 	{
 		$data = [];
 

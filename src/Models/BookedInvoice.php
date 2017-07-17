@@ -20,6 +20,7 @@ class BookedInvoice extends Model
 		'lines',
 		'project',
 		'notes',
+		'references',
 		'grossAmount',
 		'netAmount',
 		'remainder',
@@ -30,6 +31,7 @@ class BookedInvoice extends Model
 	public $self;
 	public $pdf;
 	public $name;
+	public $references;
 	public $dueDate;
 	public $date;
 	public $currency;

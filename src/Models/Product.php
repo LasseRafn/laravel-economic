@@ -12,12 +12,14 @@ class Product extends Model
 		'self',
 		'unit',
 		'description',
+		'departmentalDistribution',
 		'recommendedPrice',
 		'salesPrice',
 		'costPrice'
 	];
 
 	public $productNumber;
+	public $departmentalDistribution;
 	public $name;
 	public $self;
 	public $unit;

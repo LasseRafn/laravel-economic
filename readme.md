@@ -2,7 +2,7 @@
 
 ------
 
-### I'm working on a v2
+### I'm working on a new version
 
 Tested, easier to use and with all REST endpoints available.
 

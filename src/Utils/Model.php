@@ -68,6 +68,8 @@ class Model
 
 	public function update( $data = [] )
 	{
+		$data = array_merge($this->toArray(), $data);
+
 		return $this->request->handleWithExceptions( function () use ( $data )
 		{
 			$response = $this->request->curl->put( "/{$this->entity}/{$this->{$this->primaryKey}}", [

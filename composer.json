@@ -20,5 +20,12 @@
         "psr-4": {
             "LasseRafn\\Economic\\": "src"
         }
+    },
+    "extra":{
+        "laravel":{
+           "providers":[
+                "LasseRafn\\Economic\\EconomicServiceProvider"
+           ]
+        }
     }
 }

@@ -22,8 +22,7 @@ class Builder
 	 * @return mixed|Model
 	 */
 	public function find( $id )
-	{//todo test
-
+	{
 		return $this->request->handleWithExceptions( function () use ( $id )
 		{
 			$response = $this->request->curl->get( "/{$this->entity}/{$id}" );
@@ -101,13 +100,13 @@ class Builder
 	}
 	
 	/**
-	 * @param int $pageSize
 	 * @param int $page
+	 * @param int $pageSize
 	 * @param array $filters
 	 *
 	 * @return \Illuminate\Support\Collection|Model[]
 	 */
-	public function getByPage( $pageSize = 500, $page = 0, $filters = [] )
+	public function getByPage( $page = 0, $pageSize = 500, $filters = [] )
 	{
 		$items    = collect( [] );
 

@@ -16,7 +16,7 @@ Tested, easier to use and with all REST endpoints available.
 ````
 composer require lasserafn/laravel-economic
 ````
-
+In Laravel 5.5 the package will autoregister the service provider. In Laravel 5.4 you must install this service provider.
 2. Add the EconomicServiceProvider to your ````config/app.php```` providers array.
 ````
 'providers' => [

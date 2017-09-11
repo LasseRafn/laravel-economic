@@ -11,14 +11,21 @@
     ],
     "require": {
         "php": ">=5.4.0",
-		"illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*",
-		"guzzlehttp/guzzle": "^6.2"
+        "illuminate/support": "5.*",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
             "LasseRafn\\Economic\\": "src"
+        }
+    },
+    "extra":{
+        "laravel":{
+           "providers":[
+                "LasseRafn\\Economic\\EconomicServiceProvider"
+           ]
         }
     }
 }

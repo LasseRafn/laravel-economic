@@ -1,8 +1,8 @@
-## Laravel Economic REST wrapper
+# Laravel Economic REST wrapper
 
 ------
 
-### I'm working on a new version
+## Working on a new version
 
 Tested, easier to use and with all REST endpoints available.
 
@@ -10,7 +10,7 @@ Tested, easier to use and with all REST endpoints available.
 
 ------
 
-# Installation
+## Installation
 
 1. Require using composer
 ````
@@ -23,3 +23,5 @@ composer require lasserafn/laravel-economic
     \LasseRafn\Economic\EconomicServiceProvider::class,
 ]
 ````
+
+## [Contributors](https://github.com/LasseRafn/laravel-economic/graphs/contributors)

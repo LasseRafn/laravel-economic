@@ -23,5 +23,8 @@ composer require lasserafn/laravel-economic
     \LasseRafn\Economic\EconomicServiceProvider::class,
 ]
 ````
-
+3. Copy the package config to your local config with the publish command: 
+```
+php artisan vendor:publish --provider="LasseRafn\Economic\EconomicServiceProvider"
+```
 ## [Contributors](https://github.com/LasseRafn/laravel-economic/graphs/contributors)

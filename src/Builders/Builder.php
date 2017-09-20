@@ -22,8 +22,7 @@ class Builder
 	 * @return mixed|Model
 	 */
 	public function find( $id )
-	{//todo test
-
+	{
 		return $this->request->handleWithExceptions( function () use ( $id )
 		{
 			$response = $this->request->curl->get( "/{$this->entity}/{$id}" );
@@ -88,6 +87,56 @@ class Builder
 			$fetchedItems = $responseData->collection;
 
 			$items = collect( [] );
+			foreach ( $fetchedItems as $item )
+			{
+				/** @var Model $model */
+				$model = new $this->model( $this->request, $item );
+
+				$items->push( $model );
+			}
+
+			return $items;
+		} );
+	}
+	
+	/**
+	 * @param int $page
+	 * @param int $pageSize
+	 * @param array $filters
+	 *
+	 * @return \Illuminate\Support\Collection|Model[]
+	 */
+	public function getByPage( $page = 0, $pageSize = 500, $filters = [] )
+	{
+		$items    = collect( [] );
+
+		$urlFilters = '';
+
+		if ( count( $filters ) > 0 )
+		{
+			$urlFilters .= '&filter=';
+
+			$i = 1;
+			foreach ( $filters as $filter )
+			{
+				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+
+				if ( count( $filters ) > $i )
+				{
+					$urlFilters .= '$and:'; // todo allow $or: also
+				}
+
+				$i ++;
+			}
+		}
+
+		return $this->request->handleWithExceptions( function () use ( $pageSize, &$page, &$items, $urlFilters )
+		{
+			$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}" );
+
+			$responseData = json_decode( $response->getBody()->getContents() );
+			$fetchedItems = $responseData->collection;
+
 			foreach ( $fetchedItems as $item )
 			{
 				/** @var Model $model */

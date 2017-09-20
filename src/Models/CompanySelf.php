@@ -9,7 +9,8 @@ class CompanySelf extends Model
 
 	public $agreementNumber;
 
-	public $application = (object) [
+	/** @var object */
+	public $application = [
 		'appNumber'      => null,
 		'appPublicToken' => null,
 		'created'        => null,
@@ -18,12 +19,14 @@ class CompanySelf extends Model
 		'self'           => null
 	];
 
-	public $agreementType = (object) [
+	/** @var object */
+	public $agreementType = [
 		'agreementTypeNumber' => null,
 		'name'                => null
 	];
 
-	public $bankInformation = (object) [
+	/** @var object */
+	public $bankInformation = [
 		'bankAccountNumber'      => null,
 		'bankGiroNumber'         => null,
 		'bankName'               => null,
@@ -32,7 +35,8 @@ class CompanySelf extends Model
 		'pbsFiSupplierNumber'    => null
 	];
 
-	public $company = (object) [
+	/** @var object */
+	public $company = [
 		'addressLine1'                => null,
 		'addressLine2'                => null,
 		'attention'                   => null,
@@ -47,15 +51,17 @@ class CompanySelf extends Model
 		'zip'                         => null
 	];
 
-	public $settings = (object) [
+	/** @var object */
+	public $settings = [
 		'baseCurrency'        => null,
 		'internationalLedger' => null
 	];
 
-	public $user = (object) [
+	/** @var object */
+	public $user = [
 		'agreementNumber' => null,
 		'email'           => null,
-		'language'        => (object) [
+		'language'        => [
 			'culture'        => null,
 			'languageNumber' => null,
 			'name'           => null,

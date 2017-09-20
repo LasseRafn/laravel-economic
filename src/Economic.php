@@ -12,11 +12,12 @@ use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
-use LasseRafn\Economic\Builders\SingleBuilder;
+use LasseRafn\Economic\Builders\SelfBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\UserBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Builders\VoucherBuilder;
+use LasseRafn\Economic\Models\CompanySelf;
 use LasseRafn\Economic\Utils\Request;
 
 class Economic
@@ -174,6 +175,14 @@ class Economic
 	public function users()
 	{
 		return new UserBuilder( $this->request );
+	}
+
+	/**
+	 * @return CompanySelf
+	 */
+	public function self()
+	{
+		return (new SelfBuilder( $this->request ))->find('');
 	}
 
 	/**

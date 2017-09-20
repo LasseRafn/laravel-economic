@@ -41,13 +41,12 @@ class Model
 	public function toArray()
 	{
 		$data = [];
+		$class = new \ReflectionObject($this);
+		$properties = $class->getProperties(\ReflectionProperty::IS_PUBLIC);
 
-		foreach ( $this->fillable as $fillable )
-		{
-			if ( isset( $this->{$fillable} ) )
-			{
-				$data[ $fillable ] = $this->{$fillable};
-			}
+		/** @var \ReflectionProperty $property */
+		foreach ($properties as $property) {
+			$data[$property->getName()] = $this->{$property->getName()};
 		}
 
 		return $data;

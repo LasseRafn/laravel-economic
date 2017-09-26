@@ -1,4 +1,4 @@
-# Laravel Economic REST wrapper
+# Laravel e-conomic REST wrapper
 
 <p align="center"> 
 <a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/dt/LasseRafn/laravel-economic.svg?style=flat-square" alt="Total Downloads"></a>

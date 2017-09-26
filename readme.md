@@ -1,14 +1,10 @@
 # Laravel Economic REST wrapper
 
-------
-
-## Working on a new version
-
-Tested, easier to use and with all REST endpoints available.
-
-*Also, framework agnostic w/ Laravel Facade + config for the Laravel users.*
-
-------
+<p align="center"> 
+<a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/dt/LasseRafn/laravel-economic.svg?style=flat-square" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/v/LasseRafn/laravel-economic.svg?style=flat-square" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/l/LasseRafn/laravel-economic.svg?style=flat-square" alt="License"></a>
+</p>
 
 ## Installation
 

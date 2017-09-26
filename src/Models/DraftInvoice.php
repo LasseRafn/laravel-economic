@@ -63,14 +63,12 @@ class DraftInvoice extends Model
 		$line->description = $description;
 		$line->quantity    = (float) number_format( $quantity, 2 );
 		$line->product     = $product;
-		if ( $product !== null )
-		{
+		if ( $product !== null ) {
 			$line->unitNetPrice   = $product->salesPrice;
 			$line->unitCostPrice  = $product->costPrice;
 			$line->totalNetAmount = $quantity * $product->salesPrice;
 
-			if ( isset( $product->unit ) )
-			{
+			if ( isset( $product->unit ) ) {
 				$line->unit = $product->unit;
 			}
 		}
@@ -78,6 +76,11 @@ class DraftInvoice extends Model
 		$this->lines[] = $line;
 	}
 
+	/**
+	 * @param null $number
+	 *
+	 * @return BookedInvoice
+	 */
 	public function book( $number = null )
 	{
 		$data = [
@@ -87,13 +90,16 @@ class DraftInvoice extends Model
 			]
 		];
 
-		if ( $number !== null )
-		{
+		if ( $number !== null ) {
 			$data['bookWithNumber'] = $number;
 		}
 
-		return $this->request->curl->post( 'invoices/booked', [
+		$responseData = $this->request->curl->post( 'invoices/booked', [
 			'json' => $data
-		] );
+		] )->getBody()->getContents();
+
+		$responseData = json_decode( $responseData );
+
+		return new BookedInvoice( $this->request, $responseData );
 	}
 }

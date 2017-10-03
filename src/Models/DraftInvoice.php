@@ -77,11 +77,17 @@ class DraftInvoice extends Model
 	}
 
 	/**
+	 * $number specifies the (optional) number that the booked invoice will have.
+	 * $sendBy can be one of: none, mobilepay or ean.
+	 *
+	 * Documentation: https://restdocs.e-conomic.com/#post-invoices-booked
+	 *
 	 * @param null $number
+	 * @param null $sendBy
 	 *
 	 * @return BookedInvoice
 	 */
-	public function book( $number = null )
+	public function book( $number = null, $sendBy = null )
 	{
 		$data = [
 			'draftInvoice' => [
@@ -92,6 +98,10 @@ class DraftInvoice extends Model
 
 		if ( $number !== null ) {
 			$data['bookWithNumber'] = $number;
+		}
+
+		if ( $sendBy !== null ) {
+			$data['sendBy'] = strtolower($sendBy);
 		}
 
 		$responseData = $this->request->curl->post( 'invoices/booked', [

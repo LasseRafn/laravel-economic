@@ -1,5 +1,9 @@
 <?php namespace LasseRafn\Economic\Models;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
+use LasseRafn\Economic\Exceptions\EconomicClientException;
+use LasseRafn\Economic\Exceptions\EconomicRequestException;
 use LasseRafn\Economic\Utils\Model;
 
 class DraftInvoice extends Model
@@ -56,8 +60,7 @@ class DraftInvoice extends Model
 	 * @param int    $quantity
 	 * @param        $product
 	 */
-	public function addLine( $description = '', $quantity = 1, $product )
-	{
+	public function addLine( $description = '', $quantity = 1, $product ) {
 		$line = new \stdClass();
 
 		$line->description = $description;
@@ -87,8 +90,7 @@ class DraftInvoice extends Model
 	 *
 	 * @return BookedInvoice
 	 */
-	public function book( $number = null, $sendBy = null )
-	{
+	public function book( $number = null, $sendBy = null ) {
 		$data = [
 			'draftInvoice' => [
 				'self'               => $this->self,
@@ -101,12 +103,39 @@ class DraftInvoice extends Model
 		}
 
 		if ( $sendBy !== null ) {
-			$data['sendBy'] = strtolower($sendBy);
+			$data['sendBy'] = strtolower( $sendBy );
 		}
 
-		$responseData = $this->request->curl->post( 'invoices/booked', [
-			'json' => $data
-		] )->getBody()->getContents();
+		try {
+			$responseData = $this->request->curl->post( 'invoices/booked', [
+				'json' => $data
+			] )->getBody()->getContents();
+		} catch ( ClientException $exception ) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
+
+			if ( $exception->hasResponse() ) {
+				$message = $exception->getResponse()->getBody()->getContents();
+				$code    = $exception->getResponse()->getStatusCode();
+			}
+
+			throw new EconomicRequestException( $message, $code );
+		} catch ( ServerException $exception ) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
+
+			if ( $exception->hasResponse() ) {
+				$message = $exception->getResponse()->getBody()->getContents();
+				$code    = $exception->getResponse()->getStatusCode();
+			}
+
+			throw new EconomicRequestException( $message, $code );
+		} catch ( \Exception $exception ) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
+
+			throw new EconomicClientException( $message, $code );
+		}
 
 		$responseData = json_decode( $responseData );
 

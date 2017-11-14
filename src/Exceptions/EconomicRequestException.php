@@ -4,6 +4,16 @@ class  EconomicRequestException extends \Exception
 {
 	public function getExceptionFromJson()
 	{
-		return json_decode( $this->getMessage() )->message;
+		$body = json_decode( $this->getMessage() );
+
+		if( isset($body->message)) {
+			return $body->message;
+		}
+
+		if( isset($body->errors)) {
+			return $body->errors;
+		}
+
+		return $this->getMessage();
 	}
 }

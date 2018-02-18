@@ -1,5 +1,6 @@
 <?php namespace LasseRafn\Economic;
 
+use LasseRafn\Economic\Builders\AccountBuilder;
 use LasseRafn\Economic\Builders\AccountingYearBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
@@ -88,6 +89,14 @@ class Economic
 	public function customers()
 	{
 		return new CustomerBuilder( $this->request );
+	}
+
+	/**
+	 * @return AccountBuilder()|Builder
+	 */
+	public function accounts()
+	{
+		return new AccountBuilder( $this->request );
 	}
 
 	/**

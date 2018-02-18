@@ -13,6 +13,7 @@ use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
 use LasseRafn\Economic\Builders\SelfBuilder;
+use LasseRafn\Economic\Builders\SupplierBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\UserBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
@@ -85,6 +86,16 @@ class Economic
 	public function customers()
 	{
 		return new CustomerBuilder( $this->request );
+	}
+
+	/**
+	 * This endpoint is not yet documented by the API team.
+	 *
+	 * @return SupplierBuilder()|Builder
+	 */
+	public function experimentalSuppliers()
+	{
+		return new SupplierBuilder( $this->request );
 	}
 
 	/**

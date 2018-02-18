@@ -99,6 +99,16 @@ class Economic
 	}
 
 	/**
+	 * This endpoint is not yet documented by the API team.
+	 *
+	 * @return SupplierGroupBuilder()|Builder
+	 */
+	public function experimentalSupplierGroups()
+	{
+		return new SupplierGroupBuilder( $this->request );
+	}
+
+	/**
 	 * @return CustomerGroupBuilder|Builder
 	 */
 	public function customersGroups()

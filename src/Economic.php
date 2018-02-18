@@ -8,6 +8,7 @@ use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\EmployeeBuilder;
 use LasseRafn\Economic\Builders\EntryBuilder;
+use LasseRafn\Economic\Builders\JournalBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
@@ -97,6 +98,16 @@ class Economic
 	public function experimentalSuppliers()
 	{
 		return new SupplierBuilder( $this->request );
+	}
+
+	/**
+	 * This endpoint is experimental.
+	 *
+	 * @return JournalBuilder()|Builder
+	 */
+	public function experimentalJournals()
+	{
+		return new JournalBuilder( $this->request );
 	}
 
 	/**

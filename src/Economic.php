@@ -1,5 +1,6 @@
 <?php namespace LasseRafn\Economic;
 
+use LasseRafn\Economic\Builders\AccountBuilder;
 use LasseRafn\Economic\Builders\AccountingYearBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
@@ -8,12 +9,15 @@ use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\EmployeeBuilder;
 use LasseRafn\Economic\Builders\EntryBuilder;
+use LasseRafn\Economic\Builders\JournalBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaidInvoiceBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
 use LasseRafn\Economic\Builders\SelfBuilder;
+use LasseRafn\Economic\Builders\SupplierBuilder;
+use LasseRafn\Economic\Builders\SupplierGroupBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
 use LasseRafn\Economic\Builders\UserBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
@@ -86,6 +90,44 @@ class Economic
 	public function customers()
 	{
 		return new CustomerBuilder( $this->request );
+	}
+
+	/**
+	 * @return AccountBuilder()|Builder
+	 */
+	public function accounts()
+	{
+		return new AccountBuilder( $this->request );
+	}
+
+	/**
+	 * This endpoint is not yet documented by the API team.
+	 *
+	 * @return SupplierBuilder()|Builder
+	 */
+	public function experimentalSuppliers()
+	{
+		return new SupplierBuilder( $this->request );
+	}
+
+	/**
+	 * This endpoint is experimental.
+	 *
+	 * @return JournalBuilder()|Builder
+	 */
+	public function experimentalJournals()
+	{
+		return new JournalBuilder( $this->request );
+	}
+
+	/**
+	 * This endpoint is not yet documented by the API team.
+	 *
+	 * @return SupplierGroupBuilder()|Builder
+	 */
+	public function experimentalSupplierGroups()
+	{
+		return new SupplierGroupBuilder( $this->request );
 	}
 
 	/**

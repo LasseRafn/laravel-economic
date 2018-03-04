@@ -2,9 +2,9 @@
 
 namespace LasseRafn\Economic;
 
-use LasseRafn\Economic\Models\Order;
 use Artisaninweb\SoapWrapper\Service;
 use Artisaninweb\SoapWrapper\SoapWrapper;
+use LasseRafn\Economic\Models\Order;
 
 class SoapClient
 {
@@ -88,4 +88,47 @@ class SoapClient
 
 		return $entries;
 	}
+
+    public function getAllCashbooksEntries()
+    {
+        $cashbooks = $this->soap->call( 'economic.CashBook_GetAll' )->CashBook_GetAllResult;
+
+        $entries = collect( [] );
+
+        if ( !isset( $cashbooks->CashBookHandle ) ) {
+            return $entries;
+        }
+
+        $cashbooks = $cashbooks->CashBookHandle;
+
+        $handles = [];
+        foreach ( $cashbooks as $cashbook ) {
+            if ( !isset( $cashbook->Number ) ) {
+                continue;
+            }
+
+            $handles[] = [ 'Number' => $cashbook->Number ];
+        }
+
+        if ( count( $handles ) > 0 ) {
+            try {
+                $cashbookResponse = $this->soap->call( 'economic.CashBook_GetDataArray', [
+                    'CashBook_GetDataArray' => [
+                        'entityHandles' => $handles,
+                    ],
+                ] )->CashBook_GetDataArrayResult;
+            } catch ( \SoapFault $exception ) {
+                ErrorLog::logFor( $this->account, $exception->getMessage() );
+                throw $exception;
+            }
+
+            if ( isset( $cashbookResponse->CashBookData ) ) {
+                foreach ( $cashbookResponse->CashBookData as $item ) {
+                    $entries->push( $item );
+                }
+            }
+        }
+
+        return $entries;
+    }
 }

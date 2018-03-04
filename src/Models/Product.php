@@ -27,4 +27,9 @@ class Product extends Model
 	public $recommendedPrice = 0;
 	public $salesPrice = 0;
 	public $costPrice = 0;
+
+    /**
+     * @var Object productGroup
+     */
+    public $productGroup;
 }

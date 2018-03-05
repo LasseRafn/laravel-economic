@@ -140,4 +140,13 @@ class SoapClient
             ],
         ] )->CashBookEntry_CreateFromDataResult;
     }
+
+    public function createCashBookEntriesFromArray( $data )
+    {
+        return $this->soap->call( 'economic.CashBookEntry_CreateFromDataArray', [
+            'CashBookEntry_CreateFromDataArray' => [
+                'dataArray' => $data,
+            ],
+        ] )->CashBookEntry_CreateFromDataArrayResult;
+    }
 }

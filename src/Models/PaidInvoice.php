@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kgbot
- * Date: 12/21/17
- * Time: 10:12 PM
- */
 
 namespace App\Economic\Models;
 

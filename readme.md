@@ -37,7 +37,7 @@ php artisan vendor:publish --provider="LasseRafn\Economic\EconomicServiceProvide
 ## Usage outside of Laravel
 You can use this package without Laravel, but configuration files wont be used, so you must provide the keys to the class.
 
-Call the `config()` method in the Economic class if no keys are provided. But if you remember to provide keys, it should never be called. 
+The wrapper uses the `config()` method in the Economic class if no keys are provided. But if you remember to provide keys, it should never be called. 
 
 Otherwise register a global method for `config` until there's a framework agnostic version (coming eventually) 
 

@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class PaidInvoice extends Model
 {
-    protected $entity     = 'invoices/paid';
+    protected $entity = 'invoices/paid';
     protected $primaryKey = 'bookedInvoiceNumber';
-    protected $fillable   = [
+    protected $fillable = [
         'bookedInvoiceNumber',
         'self',
         'pdf',

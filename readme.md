@@ -4,6 +4,7 @@
 <a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/dt/LasseRafn/laravel-economic.svg?style=flat-square" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/v/LasseRafn/laravel-economic.svg?style=flat-square" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/LasseRafn/laravel-economic"><img src="https://img.shields.io/packagist/l/LasseRafn/laravel-economic.svg?style=flat-square" alt="License"></a>
+<a href="https://styleci.io/repos/75620408"><img src="https://styleci.io/repos/75620408/shield?branch=master" alt="StyleCI Status"></a>
 </p>
 
 ## Installation

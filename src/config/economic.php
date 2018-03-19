@@ -4,5 +4,5 @@ return [
 	'request_endpoint' => 'https://restapi.e-conomic.com',
 	'public_token'     => env( 'ECONOMIC_APP_PUBLIC' ),
 	'secret_token'     => env( 'ECONOMIC_APP_SECRET' ),
-    'agreement'        => env( 'ECONOMIC_AGREEMENT' ),
+    	'agreement'        => env( 'ECONOMIC_AGREEMENT' ),
 ];

@@ -4,20 +4,20 @@ namespace LasseRafn\Economic;
 
 use Artisaninweb\SoapWrapper\Service;
 use Artisaninweb\SoapWrapper\SoapWrapper;
-use LasseRafn\Economic\Models\Order;
+use LasseRafn\Economic\Models\Soap\Order;
 
 class SoapClient
 {
 	public $soap;
 
 	public function __construct( $agreement = '', $apiSecret = null, $account = null ) {
-		$secret = $apiSecret ?: config( 'economic.secret_token' );
+		$secret = $apiSecret ?? config( 'economic.secret_token' );
 
 		$this->soap = new SoapWrapper();
 		$this->soap->add( 'economic', function ( Service $service ) use ( $agreement, $secret ) {
 			$service->wsdl( 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL' )
 			        ->trace( true )
-			        ->header( 'X', 'EconomicAppIdentifier', 'BizzItsperfectEconomic/1.0 (https://bizzz.dk//; lra@bizzz.dk) BizzItsperfectEconomic/1.1' );
+			        ->header( 'X', 'EconomicAppIdentifier', 'e-conomic Soap API' );
 		} );
 
 		$this->soap->call( 'economic.ConnectWithToken', [
@@ -75,7 +75,6 @@ class SoapClient
 					]
 				] )->DebtorEntry_GetDataArrayResult;
 			} catch ( \SoapFault $exception ) {
-				ErrorLog::logFor( $this->account, $exception->getMessage() );
 				throw $exception;
 			}
 

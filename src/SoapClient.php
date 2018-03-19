@@ -117,7 +117,6 @@ class SoapClient
                     ],
                 ] )->CashBook_GetDataArrayResult;
             } catch ( \SoapFault $exception ) {
-                ErrorLog::logFor( $this->account, $exception->getMessage() );
                 throw $exception;
             }
 

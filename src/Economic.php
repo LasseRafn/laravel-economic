@@ -271,16 +271,8 @@ class Economic
 		return $this->request->curl->get( $directUrl )->getBody()->getContents();
 	}
 
-	private function initRequest()
+	protected function initRequest()
 	{
 		$this->request = new Request( $this->agreement, $this->apiSecret );
 	}
-
-	/**
-	 * @return EntryBuilder()|SingleBuilder
-	 */
-//	public function entries()
-//	{
-//		return new EntryBuilder( $this->request );
-//	}
 }

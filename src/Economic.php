@@ -29,17 +29,17 @@ class Economic
 {
 	protected $request;
 
-	private $agreement;
+	protected $agreement;
 
-	private $apiSecret;
+	protected $apiSecret;
 
-	private $apiPublic;
+	protected $apiPublic;
 
 	public function __construct( $agreement = '', $apiSecret = null, $apiPublic = null )
 	{
-		$this->agreement = $agreement ?: config( 'economic.agreement' );
-		$this->apiSecret = $apiSecret ?: config( 'economic.secret_token' );
-		$this->apiPublic = $apiPublic ?: config( 'economic.public_token' );
+		$this->agreement = $agreement ?? config( 'economic.agreement' );
+		$this->apiSecret = $apiSecret ?? config( 'economic.secret_token' );
+		$this->apiPublic = $apiPublic ?? config( 'economic.public_token' );
 
 		$this->initRequest();
 	}
@@ -178,13 +178,13 @@ class Economic
 		return new BookedInvoiceBuilder( $this->request );
 	}
 
-    /**
-     * @return PaidInvoiceBuilder|Builder
-     */
-    public function paidInvoices()
-    {
-        return new PaidInvoiceBuilder( $this->request );
-    }
+	/**
+	 * @return PaidInvoiceBuilder|Builder
+	 */
+	public function paidInvoices()
+	{
+		return new PaidInvoiceBuilder( $this->request );
+	}
 
 	/**
 	 * @return ProductBuilder()|Builder

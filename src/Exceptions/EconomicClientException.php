@@ -1,6 +1,7 @@
-<?php namespace LasseRafn\Economic\Exceptions;
+<?php
 
-class  EconomicClientException extends \Exception
+namespace LasseRafn\Economic\Exceptions;
+
+class EconomicClientException extends \Exception
 {
-
 }

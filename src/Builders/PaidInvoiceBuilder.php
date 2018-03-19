@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: kgbot
  * Date: 12/28/17
- * Time: 11:58 PM
+ * Time: 11:58 PM.
  */
 
 namespace LasseRafn\Economic\Builders;

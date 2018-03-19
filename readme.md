@@ -14,7 +14,7 @@
 composer require lasserafn/laravel-economic
 ```
 
-In Laravel 5.5 the package will autoregister the service provider. In Laravel 5.4 you must install this service provider.
+In Laravel 5.5, and above, the package will auto-register the service provider. In Laravel 5.4 you must install this service provider.
 
 2. Add the EconomicServiceProvider to your `config/app.php` providers array.
 
@@ -32,5 +32,12 @@ In Laravel 5.5 the package will autoregister the service provider. In Laravel 5.
 ``` bash
 php artisan vendor:publish --provider="LasseRafn\Economic\EconomicServiceProvider"
 ```
+
+## Usage outside of Laravel
+You can use this package without Laravel, but configuration files wont be used, so you must provide the keys to the class.
+
+Call the `config()` method in the Economic class if no keys are provided. But if you remember to provide keys, it should never be called. 
+
+Otherwise register a global method for `config` until there's a framework agnostic version (coming eventually) 
 
 ## [Contributors](https://github.com/LasseRafn/laravel-economic/graphs/contributors)

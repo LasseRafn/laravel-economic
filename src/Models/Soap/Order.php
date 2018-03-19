@@ -1,6 +1,6 @@
 <?php
 
-namespace LasseRafn\Economic\Models;
+namespace LasseRafn\Economic\Models\Soap;
 
 class Order
 {

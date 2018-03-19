@@ -11,6 +11,7 @@ use LasseRafn\Economic\Builders\EmployeeBuilder;
 use LasseRafn\Economic\Builders\EntryBuilder;
 use LasseRafn\Economic\Builders\JournalBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
+use LasseRafn\Economic\Builders\PaidInvoiceBuilder;
 use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
@@ -28,17 +29,17 @@ class Economic
 {
 	protected $request;
 
-	private $agreement;
+	protected $agreement;
 
-	private $apiSecret;
+	protected $apiSecret;
 
-	private $apiPublic;
+	protected $apiPublic;
 
 	public function __construct( $agreement = '', $apiSecret = null, $apiPublic = null )
 	{
-		$this->agreement = $agreement;
-		$this->apiSecret = $apiSecret ?: config( 'economic.secret_token' );
-		$this->apiPublic = $apiPublic ?: config( 'economic.public_token' );
+		$this->agreement = $agreement ?? config( 'economic.agreement' );
+		$this->apiSecret = $apiSecret ?? config( 'economic.secret_token' );
+		$this->apiPublic = $apiPublic ?? config( 'economic.public_token' );
 
 		$this->initRequest();
 	}
@@ -175,6 +176,14 @@ class Economic
 	public function bookedInvoices()
 	{
 		return new BookedInvoiceBuilder( $this->request );
+	}
+
+	/**
+	 * @return PaidInvoiceBuilder|Builder
+	 */
+	public function paidInvoices()
+	{
+		return new PaidInvoiceBuilder( $this->request );
 	}
 
 	/**

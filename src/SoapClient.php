@@ -16,19 +16,19 @@ class SoapClient
     {
         $this->agreement = $agreement ?? config('economic.agreement');
         $this->secret = $secret ?? config('economic.secret_token');
-
-        $this->soap = new SoapWrapper();
-        $this->soap->add('economic', function (Service $service) {
-            $service->wsdl('https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL')
-                    ->trace(true)
-                    ->header('X', 'EconomicAppIdentifier', 'e-conomic Soap API');
-        });
     }
 
     public function auth($agreement = null, $secret = null)
     {
         $agreement = $agreement ?? $this->agreement;
         $secret = $secret ?? $this->secret;
+
+	    $this->soap = new SoapWrapper();
+	    $this->soap->add('economic', function (Service $service) {
+		    $service->wsdl('https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL')
+		            ->trace(true)
+		            ->header('X', 'EconomicAppIdentifier', 'e-conomic Soap API');
+	    });
 
         $this->soap->call('economic.ConnectWithToken', [
             'ConnectWithToken' => [

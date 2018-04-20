@@ -157,4 +157,14 @@ class SoapClient
             ],
         ] )->Project_CreateFromDataArrayResult;
     }
+
+    public function registerPdfVoucher( $file, $entry_number )
+    {
+        return $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
+            'CashBook_RegisterPdfVoucher' => [
+                'data'          => $file,
+                'voucherNumber' => (int) $entry_number,
+            ],
+        ] )->CashBook_RegisterPdfVoucherResponse;
+    }
 }

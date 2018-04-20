@@ -160,12 +160,14 @@ class SoapClient
 
     public function registerPdfVoucher( $file, $entry_number, $entry_date )
     {
-        return $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
+        $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
             'CashBook_RegisterPdfVoucher' => [
                 'data'          => $file,
                 'voucherNumber' => (int) $entry_number,
                 'entryDate'     => $entry_date,
             ],
-        ] )->CashBook_RegisterPdfVoucherResponse;
+        ] );
+
+        return true;
     }
 }

@@ -170,4 +170,13 @@ class SoapClient
 
         return true;
     }
+
+    public function createProductGroupFromData( $data )
+    {
+        return $this->soap->call( 'economic.ProductGroup_CreateFromData', [
+            'ProductGroup_CreateFromData' => [
+                'data' => $data,
+            ],
+        ] )->ProductGroup_CreateFromDataResult;
+    }
 }

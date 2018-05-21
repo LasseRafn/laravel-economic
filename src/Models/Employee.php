@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Employee extends Model
 {
-    protected $entity = 'employees';
+    protected $entity     = 'employees';
     protected $primaryKey = 'employeeNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'barred',
         'bookedInvoices',
         'customers',

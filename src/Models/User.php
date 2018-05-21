@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class User extends Model
 {
-    protected $entity = 'users';
+    protected $entity     = 'users';
     protected $primaryKey = 'userNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'userNumber',
         'name',
         'self',

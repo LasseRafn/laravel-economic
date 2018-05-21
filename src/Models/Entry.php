@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Entry extends Model
 {
-    protected $entity = 'entries';
+    protected $entity     = 'entries';
     protected $primaryKey = 'entryNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'entryNumber',
         'account',
         'amount',

@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Layout extends Model
 {
-    protected $entity = 'layouts';
+    protected $entity     = 'layouts';
     protected $primaryKey = 'layoutNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'layoutNumber',
         'name',
         'self',

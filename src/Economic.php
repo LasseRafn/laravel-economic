@@ -36,16 +36,16 @@ class Economic
 
     protected $apiPublic;
 
-    public function __construct($agreement = '', $apiSecret = null, $apiPublic = null)
+    public function __construct( $agreement = '', $apiSecret = null, $apiPublic = null )
     {
-        $this->agreement = $agreement ?? config('economic.agreement');
-        $this->apiSecret = $apiSecret ?? config('economic.secret_token');
-        $this->apiPublic = $apiPublic ?? config('economic.public_token');
+        $this->agreement = $agreement ?? config( 'economic.agreement' );
+        $this->apiSecret = $apiSecret ?? config( 'economic.secret_token' );
+        $this->apiPublic = $apiPublic ?? config( 'economic.public_token' );
 
         $this->initRequest();
     }
 
-    public function setAgreement($agreement = '')
+    public function setAgreement( $agreement = '' )
     {
         $this->agreement = $agreement;
 
@@ -54,7 +54,7 @@ class Economic
         return $this;
     }
 
-    public function setApiSecret($apiSecret = '')
+    public function setApiSecret( $apiSecret = '' )
     {
         $this->apiSecret = $apiSecret;
 
@@ -63,7 +63,7 @@ class Economic
         return $this;
     }
 
-    public function setApiPublicToken($apiPublic = '')
+    public function setApiPublicToken( $apiPublic = '' )
     {
         $this->apiPublic = $apiPublic;
 
@@ -72,16 +72,16 @@ class Economic
 
     public function getApiTokenFromUrl()
     {
-        return $_GET['token'] ?? null;
+        return $_GET[ 'token' ] ?? null;
     }
 
-    public function getAuthUrl($redirectUrl = '')
+    public function getAuthUrl( $redirectUrl = '' )
     {
-        if ($redirectUrl !== '') {
-            $redirectUrl = '&redirectUrl='.urlencode($redirectUrl);
+        if ( $redirectUrl !== '' ) {
+            $redirectUrl = '&redirectUrl=' . urlencode( $redirectUrl );
         }
 
-        return config('economic.auth_endpoint').$this->apiPublic.$redirectUrl;
+        return config( 'economic.auth_endpoint' ) . $this->apiPublic . $redirectUrl;
     }
 
     /**
@@ -89,7 +89,7 @@ class Economic
      */
     public function customers()
     {
-        return new CustomerBuilder($this->request);
+        return new CustomerBuilder( $this->request );
     }
 
     /**
@@ -97,7 +97,7 @@ class Economic
      */
     public function accounts()
     {
-        return new AccountBuilder($this->request);
+        return new AccountBuilder( $this->request );
     }
 
     /**
@@ -107,7 +107,7 @@ class Economic
      */
     public function experimentalSuppliers()
     {
-        return new SupplierBuilder($this->request);
+        return new SupplierBuilder( $this->request );
     }
 
     /**
@@ -117,7 +117,7 @@ class Economic
      */
     public function experimentalJournals()
     {
-        return new JournalBuilder($this->request);
+        return new JournalBuilder( $this->request );
     }
 
     /**
@@ -127,7 +127,7 @@ class Economic
      */
     public function experimentalSupplierGroups()
     {
-        return new SupplierGroupBuilder($this->request);
+        return new SupplierGroupBuilder( $this->request );
     }
 
     /**
@@ -135,7 +135,7 @@ class Economic
      */
     public function customersGroups()
     {
-        return new CustomerGroupBuilder($this->request);
+        return new CustomerGroupBuilder( $this->request );
     }
 
     /**
@@ -143,7 +143,7 @@ class Economic
      */
     public function layouts()
     {
-        return new LayoutBuilder($this->request);
+        return new LayoutBuilder( $this->request );
     }
 
     /**
@@ -151,7 +151,7 @@ class Economic
      */
     public function vatZones()
     {
-        return new VatZoneBuilder($this->request);
+        return new VatZoneBuilder( $this->request );
     }
 
     /**
@@ -159,7 +159,7 @@ class Economic
      */
     public function paymentTerms()
     {
-        return new PaymentTermBuilder($this->request);
+        return new PaymentTermBuilder( $this->request );
     }
 
     /**
@@ -167,7 +167,7 @@ class Economic
      */
     public function draftInvoices()
     {
-        return new DraftInvoiceBuilder($this->request);
+        return new DraftInvoiceBuilder( $this->request );
     }
 
     /**
@@ -175,7 +175,7 @@ class Economic
      */
     public function bookedInvoices()
     {
-        return new BookedInvoiceBuilder($this->request);
+        return new BookedInvoiceBuilder( $this->request );
     }
 
     /**
@@ -183,7 +183,7 @@ class Economic
      */
     public function paidInvoices()
     {
-        return new PaidInvoiceBuilder($this->request);
+        return new PaidInvoiceBuilder( $this->request );
     }
 
     /**
@@ -191,7 +191,7 @@ class Economic
      */
     public function products()
     {
-        return new ProductBuilder($this->request);
+        return new ProductBuilder( $this->request );
     }
 
     /**
@@ -199,7 +199,7 @@ class Economic
      */
     public function productGroups()
     {
-        return new ProductGroupBuilder($this->request);
+        return new ProductGroupBuilder( $this->request );
     }
 
     /**
@@ -207,7 +207,7 @@ class Economic
      */
     public function units()
     {
-        return new UnitBuilder($this->request);
+        return new UnitBuilder( $this->request );
     }
 
     /**
@@ -215,7 +215,7 @@ class Economic
      */
     public function employees()
     {
-        return new EmployeeBuilder($this->request);
+        return new EmployeeBuilder( $this->request );
     }
 
     /**
@@ -225,7 +225,7 @@ class Economic
      */
     public function users()
     {
-        return new UserBuilder($this->request);
+        return new UserBuilder( $this->request );
     }
 
     /**
@@ -233,7 +233,7 @@ class Economic
      */
     public function self()
     {
-        return (new SelfBuilder($this->request))->find('');
+        return ( new SelfBuilder( $this->request ) )->find( '' );
     }
 
     /**
@@ -241,13 +241,13 @@ class Economic
      *
      * @return AccountingYearBuilder()|Builder
      */
-    public function accountingYear($year = null)
+    public function accountingYear( $year = null )
     {
-        if ($year === null) {
-            $year = (int) date('Y');
+        if ( $year === null ) {
+            $year = (int) date( 'Y' );
         }
 
-        return new AccountingYearBuilder($this->request, $year);
+        return new AccountingYearBuilder( $this->request, $year );
     }
 
     /**
@@ -255,22 +255,22 @@ class Economic
      *
      * @return VoucherBuilder()|Builder
      */
-    public function accountingYearVouchers($year = null)
+    public function accountingYearVouchers( $year = null )
     {
-        if ($year === null) {
-            $year = (int) date('Y');
+        if ( $year === null ) {
+            $year = (int) date( 'Y' );
         }
 
-        return new VoucherBuilder($this->request, $year);
+        return new VoucherBuilder( $this->request, $year );
     }
 
-    public function downloadInvoice($directUrl)
+    public function downloadInvoice( $directUrl )
     {
-        return $this->request->curl->get($directUrl)->getBody()->getContents();
+        return $this->request->curl->get( $directUrl )->getBody()->getContents();
     }
 
     protected function initRequest()
     {
-        $this->request = new Request($this->agreement, $this->apiSecret);
+        $this->request = new Request( $this->agreement, $this->apiSecret );
     }
 }

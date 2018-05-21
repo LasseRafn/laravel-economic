@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class AccountingYear extends Model
 {
-    protected $entity = ' /accounting-years/:accountingYear';
+    protected $entity     = ' /accounting-years/:accountingYear';
     protected $primaryKey = 'accountingYear';
-    protected $fillable = [
+    protected $fillable   = [
         'attachment',
         'booked',
         'date',

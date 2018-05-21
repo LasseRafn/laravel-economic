@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Product extends Model
 {
-    protected $entity = 'products';
+    protected $entity     = 'products';
     protected $primaryKey = 'productNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'productNumber',
         'name',
         'self',
@@ -27,8 +27,8 @@ class Product extends Model
     public $unit;
     public $description;
     public $recommendedPrice = 0;
-    public $salesPrice = 0;
-    public $costPrice = 0;
+    public $salesPrice       = 0;
+    public $costPrice        = 0;
 
     /**
      * @var object productGroup

@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Journal extends Model
 {
-    protected $entity = 'journals-experimental';
+    protected $entity     = 'journals-experimental';
     protected $primaryKey = 'journalNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'journalNumber',
         'entries',
         'name',

@@ -8,94 +8,95 @@ use LasseRafn\Economic\Models\Soap\Order;
 
 class SoapClient
 {
-    public $soap;
+    public    $soap;
     protected $secret;
     protected $agreement;
 
-    public function __construct($agreement = '', $secret = null)
+    public function __construct( $agreement = '', $secret = null )
     {
-        $this->agreement = $agreement ?? config('economic.agreement');
-        $this->secret = $secret ?? config('economic.secret_token');
+        $this->agreement = $agreement ?? config( 'economic.agreement' );
+        $this->secret    = $secret ?? config( 'economic.secret_token' );
     }
 
-    public function auth($agreement = null, $secret = null)
+    public function auth( $agreement = null, $secret = null )
     {
         $agreement = $agreement ?? $this->agreement;
-        $secret = $secret ?? $this->secret;
+        $secret    = $secret ?? $this->secret;
 
-	    $this->soap = new SoapWrapper();
-	    $this->soap->add('economic', function (Service $service) {
-		    $service->wsdl('https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL')
-		            ->trace(true)
-		            ->header('X', 'EconomicAppIdentifier', 'e-conomic Soap API');
-	    });
+        $this->soap = new SoapWrapper();
+        $this->soap->add( 'economic', function ( Service $service ) {
+            $service->wsdl( 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL' )
+                    ->trace( true )
+                    ->header( 'X', 'EconomicAppIdentifier', 'e-conomic Soap API' );
+        } );
 
-        $this->soap->call('economic.ConnectWithToken', [
+        $this->soap->call( 'economic.ConnectWithToken', [
             'ConnectWithToken' => [
                 'token'          => $agreement,
                 'appSecretToken' => $secret,
                 'appToken'       => $secret,
             ],
-        ]);
+        ] );
 
         return $this;
     }
 
-    public function getPayments($toDate = null)
+    public function getPayments( $toDate = null )
     {
-        $items = $this->getAllOpenDebtorEntries()->where('Type', '=', 'DebtorPayment');
+        $items = $this->getAllOpenDebtorEntries()->where( 'Type', '=', 'DebtorPayment' );
 
-        if ($toDate !== null) {
-            $items = $items->where('Date', '<=', $toDate);
+        if ( $toDate !== null ) {
+            $items = $items->where( 'Date', '<=', $toDate );
         }
 
         return $items;
     }
 
-    public function postOrder(Order $order)
+    public function postOrder( Order $order )
     {
-        return $this->soap->call('economic.Order_CreateFromData', [
+        return $this->soap->call( 'economic.Order_CreateFromData', [
             'Order_CreateFromData' => [
                 'data' => $order->format(),
             ],
-        ])->Order_CreateFromDataResult;
+        ] )->Order_CreateFromDataResult;
     }
 
     public function getAllOpenDebtorEntries()
     {
-        $openEntries = $this->soap->call('economic.DebtorEntry_GetAllOpenEntries')->DebtorEntry_GetAllOpenEntriesResult;
+        $openEntries =
+            $this->soap->call( 'economic.DebtorEntry_GetAllOpenEntries' )->DebtorEntry_GetAllOpenEntriesResult;
 
-        $entries = collect([]);
+        $entries = collect( [] );
 
-        if (!isset($openEntries->DebtorEntryHandle)) {
+        if ( !isset( $openEntries->DebtorEntryHandle ) ) {
             return $entries;
         }
 
         $openEntries = $openEntries->DebtorEntryHandle;
 
         $handles = [];
-        foreach ($openEntries as $openEntry) {
-            if (!isset($openEntry->SerialNumber)) {
+        foreach ( $openEntries as $openEntry ) {
+            if ( !isset( $openEntry->SerialNumber ) ) {
                 continue;
             }
 
-            $handles[] = ['SerialNumber' => $openEntry->SerialNumber];
+            $handles[] = [ 'SerialNumber' => $openEntry->SerialNumber ];
         }
 
-        if (count($handles) > 0) {
+        if ( count( $handles ) > 0 ) {
             try {
-                $entryResponse = $this->soap->call('economic.DebtorEntry_GetDataArray', [
+                $entryResponse = $this->soap->call( 'economic.DebtorEntry_GetDataArray', [
                     'DebtorEntry_GetDataArray' => [
                         'entityHandles' => $handles,
                     ],
-                ])->DebtorEntry_GetDataArrayResult;
-            } catch (\SoapFault $exception) {
+                ] )->DebtorEntry_GetDataArrayResult;
+            } catch ( \SoapFault $exception ) {
                 throw $exception;
             }
 
-            if (isset($entryResponse->DebtorEntryData)) {
-                foreach ($entryResponse->DebtorEntryData as $item) {
-                    $entries->push($item);
+            if ( isset( $entryResponse->DebtorEntryData ) ) {
+                foreach ( $entryResponse->DebtorEntryData as $item ) {
+                    $entries->push( $item );
                 }
             }
         }
@@ -105,39 +106,39 @@ class SoapClient
 
     public function getAllCashbooksEntries()
     {
-        $cashbooks = $this->soap->call('economic.CashBook_GetAll')->CashBook_GetAllResult;
+        $cashbooks = $this->soap->call( 'economic.CashBook_GetAll' )->CashBook_GetAllResult;
 
-        $entries = collect([]);
+        $entries = collect( [] );
 
-        if (!isset($cashbooks->CashBookHandle)) {
+        if ( !isset( $cashbooks->CashBookHandle ) ) {
             return $entries;
         }
 
         $cashbooks = $cashbooks->CashBookHandle;
 
         $handles = [];
-        foreach ($cashbooks as $cashbook) {
-            if (!isset($cashbook->Number)) {
+        foreach ( $cashbooks as $cashbook ) {
+            if ( !isset( $cashbook->Number ) ) {
                 continue;
             }
 
-            $handles[] = ['Number' => $cashbook->Number];
+            $handles[] = [ 'Number' => $cashbook->Number ];
         }
 
-        if (count($handles) > 0) {
+        if ( count( $handles ) > 0 ) {
             try {
-                $cashbookResponse = $this->soap->call('economic.CashBook_GetDataArray', [
+                $cashbookResponse = $this->soap->call( 'economic.CashBook_GetDataArray', [
                     'CashBook_GetDataArray' => [
                         'entityHandles' => $handles,
                     ],
-                ])->CashBook_GetDataArrayResult;
-            } catch (\SoapFault $exception) {
+                ] )->CashBook_GetDataArrayResult;
+            } catch ( \SoapFault $exception ) {
                 throw $exception;
             }
 
-            if (isset($cashbookResponse->CashBookData)) {
-                foreach ($cashbookResponse->CashBookData as $item) {
-                    $entries->push($item);
+            if ( isset( $cashbookResponse->CashBookData ) ) {
+                foreach ( $cashbookResponse->CashBookData as $item ) {
+                    $entries->push( $item );
                 }
             }
         }
@@ -147,29 +148,29 @@ class SoapClient
 
     public function createCashBookEntryFromData( $data )
     {
-        return $this->soap->call('economic.CashBookEntry_CreateFromData', [
+        return $this->soap->call( 'economic.CashBookEntry_CreateFromData', [
             'CashBookEntry_CreateFromData' => [
                 'data' => $data,
             ],
-        ])->CashBookEntry_CreateFromDataResult;
+        ] )->CashBookEntry_CreateFromDataResult;
     }
 
-    public function createCashBookEntriesFromArray($data)
+    public function createCashBookEntriesFromArray( $data )
     {
-        return $this->soap->call('economic.CashBookEntry_CreateFromDataArray', [
+        return $this->soap->call( 'economic.CashBookEntry_CreateFromDataArray', [
             'CashBookEntry_CreateFromDataArray' => [
                 'dataArray' => $data,
             ],
-        ])->CashBookEntry_CreateFromDataArrayResult;
+        ] )->CashBookEntry_CreateFromDataArrayResult;
     }
 
-    public function createProjectsFromArray($data)
+    public function createProjectsFromArray( $data )
     {
-        return $this->soap->call('economic.Project_CreateFromDataArray', [
+        return $this->soap->call( 'economic.Project_CreateFromDataArray', [
             'Project_CreateFromDataArray' => [
                 'dataArray' => $data,
             ],
-        ])->Project_CreateFromDataArrayResult;
+        ] )->Project_CreateFromDataArrayResult;
     }
 
     public function registerPdfVoucher( $file, $entry_number, $entry_date )

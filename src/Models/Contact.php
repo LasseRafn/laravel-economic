@@ -7,9 +7,9 @@ use LasseRafn\Economic\Utils\Request;
 
 class Contact extends Model
 {
-    protected $entity = 'customers/:customerNumber/contacts';
+    protected $entity     = 'customers/:customerNumber/contacts';
     protected $primaryKey = 'customerContactNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'customerContactNumber',
         'self',
         'email',
@@ -27,10 +27,10 @@ class Contact extends Model
     /** @var Customer $customer */
     public $customer;
 
-    public function __construct(Request $request, $data)
+    public function __construct( Request $request, $data )
     {
-        $this->entity = str_replace(':customerNumber', $data->customer->customerNumber, $this->entity);
+        $this->entity = str_replace( ':customerNumber', $data->customer->customerNumber, $this->entity );
 
-        parent::__construct($request, $data);
+        parent::__construct( $request, $data );
     }
 }

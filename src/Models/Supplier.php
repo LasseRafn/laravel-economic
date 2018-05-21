@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Supplier extends Model
 {
-    protected $entity = 'suppliers';
+    protected $entity     = 'suppliers';
     protected $primaryKey = 'supplierNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'address',
         'attention',
         'bankAccount',

@@ -7,5 +7,5 @@ use LasseRafn\Economic\Models\Product;
 class ProductBuilder extends Builder
 {
     protected $entity = 'products';
-    protected $model = Product::class;
+    protected $model  = Product::class;
 }

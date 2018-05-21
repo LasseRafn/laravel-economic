@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class CustomerGroup extends Model
 {
-    protected $entity = 'customer-groups';
+    protected $entity     = 'customer-groups';
     protected $primaryKey = 'customerGroupNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'customerGroupNumber',
         'name',
         'self',

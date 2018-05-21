@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Account extends Model
 {
-    protected $entity = ' /accounts';
+    protected $entity     = ' /accounts';
     protected $primaryKey = 'accountNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'accountNumber',
         'name',
     ];

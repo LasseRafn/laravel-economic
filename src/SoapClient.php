@@ -197,6 +197,6 @@ class SoapClient
 
     public function getProjectCosts()
     {
-        return $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResponse;
+        return $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResult;
     }
 }

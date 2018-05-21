@@ -194,4 +194,9 @@ class SoapClient
             ],
         ] )->ProductGroup_CreateFromDataResult;
     }
+
+    public function getProjectCosts()
+    {
+        return $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResponse;
+    }
 }

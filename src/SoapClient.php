@@ -227,10 +227,8 @@ class SoapClient
                 throw $exception;
             }
 
-            if ( isset( $projectCostResponse->CostTypeData ) ) {
-                foreach ( $projectCostResponse->CostTypeData as $item ) {
-                    $entries->push( $item );
-                }
+            foreach ( $projectCostResponse as $item ) {
+                $entries->push( $item );
             }
         }
 

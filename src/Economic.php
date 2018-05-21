@@ -1,4 +1,6 @@
-<?php namespace LasseRafn\Economic;
+<?php
+
+namespace LasseRafn\Economic;
 
 use LasseRafn\Economic\Builders\AccountBuilder;
 use LasseRafn\Economic\Builders\AccountingYearBuilder;
@@ -8,7 +10,6 @@ use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
 use LasseRafn\Economic\Builders\EmployeeBuilder;
-use LasseRafn\Economic\Builders\EntryBuilder;
 use LasseRafn\Economic\Builders\JournalBuilder;
 use LasseRafn\Economic\Builders\LayoutBuilder;
 use LasseRafn\Economic\Builders\PaidInvoiceBuilder;
@@ -27,260 +28,249 @@ use LasseRafn\Economic\Utils\Request;
 
 class Economic
 {
-	protected $request;
+    protected $request;
 
-	protected $agreement;
+    protected $agreement;
 
-	protected $apiSecret;
+    protected $apiSecret;
 
-	protected $apiPublic;
+    protected $apiPublic;
 
-	public function __construct( $agreement = '', $apiSecret = null, $apiPublic = null )
-	{
-		$this->agreement = $agreement ?? config( 'economic.agreement' );
-		$this->apiSecret = $apiSecret ?? config( 'economic.secret_token' );
-		$this->apiPublic = $apiPublic ?? config( 'economic.public_token' );
+    public function __construct($agreement = '', $apiSecret = null, $apiPublic = null)
+    {
+        $this->agreement = $agreement ?? config('economic.agreement');
+        $this->apiSecret = $apiSecret ?? config('economic.secret_token');
+        $this->apiPublic = $apiPublic ?? config('economic.public_token');
 
-		$this->initRequest();
-	}
+        $this->initRequest();
+    }
 
-	public function setAgreement( $agreement = '' )
-	{
-		$this->agreement = $agreement;
+    public function setAgreement($agreement = '')
+    {
+        $this->agreement = $agreement;
 
-		$this->initRequest();
+        $this->initRequest();
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setApiSecret( $apiSecret = '' )
-	{
-		$this->apiSecret = $apiSecret;
+    public function setApiSecret($apiSecret = '')
+    {
+        $this->apiSecret = $apiSecret;
 
-		$this->initRequest();
+        $this->initRequest();
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function setApiPublicToken( $apiPublic = '' )
-	{
-		$this->apiPublic = $apiPublic;
+    public function setApiPublicToken($apiPublic = '')
+    {
+        $this->apiPublic = $apiPublic;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getApiTokenFromUrl()
-	{
-		return $_GET['token'] ?? null;
-	}
+    public function getApiTokenFromUrl()
+    {
+        return $_GET['token'] ?? null;
+    }
 
-	public function getAuthUrl( $redirectUrl = '' )
-	{
-		if ( $redirectUrl !== '' )
-		{
-			$redirectUrl = '&redirectUrl=' . urlencode( $redirectUrl );
-		}
+    public function getAuthUrl($redirectUrl = '')
+    {
+        if ($redirectUrl !== '') {
+            $redirectUrl = '&redirectUrl='.urlencode($redirectUrl);
+        }
 
-		return config( 'economic.auth_endpoint' ) . $this->apiPublic . $redirectUrl;
-	}
+        return config('economic.auth_endpoint').$this->apiPublic.$redirectUrl;
+    }
 
-	/**
-	 * @return CustomerBuilder|Builder
-	 */
-	public function customers()
-	{
-		return new CustomerBuilder( $this->request );
-	}
+    /**
+     * @return CustomerBuilder|Builder
+     */
+    public function customers()
+    {
+        return new CustomerBuilder($this->request);
+    }
 
-	/**
-	 * @return AccountBuilder()|Builder
-	 */
-	public function accounts()
-	{
-		return new AccountBuilder( $this->request );
-	}
+    /**
+     * @return AccountBuilder()|Builder
+     */
+    public function accounts()
+    {
+        return new AccountBuilder($this->request);
+    }
 
-	/**
-	 * This endpoint is not yet documented by the API team.
-	 *
-	 * @return SupplierBuilder()|Builder
-	 */
-	public function experimentalSuppliers()
-	{
-		return new SupplierBuilder( $this->request );
-	}
+    /**
+     * This endpoint is not yet documented by the API team.
+     *
+     * @return SupplierBuilder()|Builder
+     */
+    public function experimentalSuppliers()
+    {
+        return new SupplierBuilder($this->request);
+    }
 
-	/**
-	 * This endpoint is experimental.
-	 *
-	 * @return JournalBuilder()|Builder
-	 */
-	public function experimentalJournals()
-	{
-		return new JournalBuilder( $this->request );
-	}
+    /**
+     * This endpoint is experimental.
+     *
+     * @return JournalBuilder()|Builder
+     */
+    public function experimentalJournals()
+    {
+        return new JournalBuilder($this->request);
+    }
 
-	/**
-	 * This endpoint is not yet documented by the API team.
-	 *
-	 * @return SupplierGroupBuilder()|Builder
-	 */
-	public function experimentalSupplierGroups()
-	{
-		return new SupplierGroupBuilder( $this->request );
-	}
+    /**
+     * This endpoint is not yet documented by the API team.
+     *
+     * @return SupplierGroupBuilder()|Builder
+     */
+    public function experimentalSupplierGroups()
+    {
+        return new SupplierGroupBuilder($this->request);
+    }
 
-	/**
-	 * @return CustomerGroupBuilder|Builder
-	 */
-	public function customersGroups()
-	{
-		return new CustomerGroupBuilder( $this->request );
-	}
+    /**
+     * @return CustomerGroupBuilder|Builder
+     */
+    public function customersGroups()
+    {
+        return new CustomerGroupBuilder($this->request);
+    }
 
-	/**
-	 * @return LayoutBuilder|Builder
-	 */
-	public function layouts()
-	{
-		return new LayoutBuilder( $this->request );
-	}
+    /**
+     * @return LayoutBuilder|Builder
+     */
+    public function layouts()
+    {
+        return new LayoutBuilder($this->request);
+    }
 
-	/**
-	 * @return VatZoneBuilder|Builder
-	 */
-	public function vatZones()
-	{
-		return new VatZoneBuilder( $this->request );
-	}
+    /**
+     * @return VatZoneBuilder|Builder
+     */
+    public function vatZones()
+    {
+        return new VatZoneBuilder($this->request);
+    }
 
-	/**
-	 * @return VatZoneBuilder|Builder
-	 */
-	public function paymentTerms()
-	{
-		return new PaymentTermBuilder( $this->request );
-	}
+    /**
+     * @return VatZoneBuilder|Builder
+     */
+    public function paymentTerms()
+    {
+        return new PaymentTermBuilder($this->request);
+    }
 
-	/**
-	 * @return DraftInvoiceBuilder|Builder
-	 */
-	public function draftInvoices()
-	{
-		return new DraftInvoiceBuilder( $this->request );
-	}
+    /**
+     * @return DraftInvoiceBuilder|Builder
+     */
+    public function draftInvoices()
+    {
+        return new DraftInvoiceBuilder($this->request);
+    }
 
-	/**
-	 * @return BookedInvoiceBuilder|Builder
-	 */
-	public function bookedInvoices()
-	{
-		return new BookedInvoiceBuilder( $this->request );
-	}
+    /**
+     * @return BookedInvoiceBuilder|Builder
+     */
+    public function bookedInvoices()
+    {
+        return new BookedInvoiceBuilder($this->request);
+    }
 
-	/**
-	 * @return PaidInvoiceBuilder|Builder
-	 */
-	public function paidInvoices()
-	{
-		return new PaidInvoiceBuilder( $this->request );
-	}
+    /**
+     * @return PaidInvoiceBuilder|Builder
+     */
+    public function paidInvoices()
+    {
+        return new PaidInvoiceBuilder($this->request);
+    }
 
-	/**
-	 * @return ProductBuilder()|Builder
-	 */
-	public function products()
-	{
-		return new ProductBuilder( $this->request );
-	}
+    /**
+     * @return ProductBuilder()|Builder
+     */
+    public function products()
+    {
+        return new ProductBuilder($this->request);
+    }
 
-	/**
-	 * @return ProductGroupBuilder()|Builder
-	 */
-	public function productGroups()
-	{
-		return new ProductGroupBuilder( $this->request );
-	}
+    /**
+     * @return ProductGroupBuilder()|Builder
+     */
+    public function productGroups()
+    {
+        return new ProductGroupBuilder($this->request);
+    }
 
-	/**
-	 * @return UnitBuilder()|Builder
-	 */
-	public function units()
-	{
-		return new UnitBuilder( $this->request );
-	}
+    /**
+     * @return UnitBuilder()|Builder
+     */
+    public function units()
+    {
+        return new UnitBuilder($this->request);
+    }
 
-	/**
-	 * @return EmployeeBuilder()|Builder
-	 */
-	public function employees()
-	{
-		return new EmployeeBuilder( $this->request );
-	}
+    /**
+     * @return EmployeeBuilder()|Builder
+     */
+    public function employees()
+    {
+        return new EmployeeBuilder($this->request);
+    }
 
-	/**
-	 * @return UserBuilder()|Builder
-	 *
-	 * WARNING: Undocumented endpoint!
-	 */
-	public function users()
-	{
-		return new UserBuilder( $this->request );
-	}
+    /**
+     * @return UserBuilder()|Builder
+     *
+     * WARNING: Undocumented endpoint!
+     */
+    public function users()
+    {
+        return new UserBuilder($this->request);
+    }
 
-	/**
-	 * @return CompanySelf
-	 */
-	public function self()
-	{
-		return (new SelfBuilder( $this->request ))->find('');
-	}
+    /**
+     * @return CompanySelf
+     */
+    public function self()
+    {
+        return (new SelfBuilder($this->request))->find('');
+    }
 
-	/**
-	 * @param int|null $year
-	 *
-	 * @return AccountingYearBuilder()|Builder
-	 */
-	public function accountingYear( $year = null )
-	{
-		if ( $year === null )
-		{
-			$year = (int) date( 'Y' );
-		}
+    /**
+     * @param int|null $year
+     *
+     * @return AccountingYearBuilder()|Builder
+     */
+    public function accountingYear($year = null)
+    {
+        if ($year === null) {
+            $year = (int) date('Y');
+        }
 
-		return new AccountingYearBuilder( $this->request, $year );
-	}
+        return new AccountingYearBuilder($this->request, $year);
+    }
 
-	/**
-	 * @param int|null $year
-	 *
-	 * @return VoucherBuilder()|Builder
-	 */
-	public function accountingYearVouchers( $year = null )
-	{
-		if ( $year === null )
-		{
-			$year = (int) date( 'Y' );
-		}
+    /**
+     * @param int|null $year
+     *
+     * @return VoucherBuilder()|Builder
+     */
+    public function accountingYearVouchers($year = null)
+    {
+        if ($year === null) {
+            $year = (int) date('Y');
+        }
 
-		return new VoucherBuilder( $this->request, $year );
-	}
+        return new VoucherBuilder($this->request, $year);
+    }
 
-	public function downloadInvoice( $directUrl )
-	{
-		return $this->request->curl->get( $directUrl )->getBody()->getContents();
-	}
+    public function downloadInvoice($directUrl)
+    {
+        return $this->request->curl->get($directUrl)->getBody()->getContents();
+    }
 
-	private function initRequest()
-	{
-		$this->request = new Request( $this->agreement, $this->apiSecret );
-	}
-
-	/**
-	 * @return EntryBuilder()|SingleBuilder
-	 */
-//	public function entries()
-//	{
-//		return new EntryBuilder( $this->request );
-//	}
+    protected function initRequest()
+    {
+        $this->request = new Request($this->agreement, $this->apiSecret);
+    }
 }

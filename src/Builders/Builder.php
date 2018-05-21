@@ -1,299 +1,276 @@
-<?php namespace LasseRafn\Economic\Builders;
+<?php
+
+namespace LasseRafn\Economic\Builders;
 
 use LasseRafn\Economic\Utils\Model;
 use LasseRafn\Economic\Utils\Request;
 
 class Builder
 {
-	private   $request;
-	protected $entity;
+    private $request;
+    protected $entity;
 
-	/** @var Model */
-	protected $model;
+    /** @var Model */
+    protected $model;
 
-	public function __construct( Request $request )
-	{
-		$this->request = $request;
-	}
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
-	/**
-	 * @param $id
-	 *
-	 * @return mixed|Model
-	 */
-	public function find( $id )
-	{
-		return $this->request->handleWithExceptions( function () use ( $id )
-		{
-			$response = $this->request->curl->get( "/{$this->entity}/{$id}" );
+    /**
+     * @param $id
+     *
+     * @return mixed|Model
+     */
+    public function find($id)
+    {
+        return $this->request->handleWithExceptions(function () use ($id) {
+            $response = $this->request->curl->get("/{$this->entity}/{$id}");
 
-			$responseData = json_decode( $response->getBody()->getContents() );
+            $responseData = json_decode($response->getBody()->getContents());
 
-			return new $this->model( $this->request, $responseData );
-		} );
-	}
+            return new $this->model($this->request, $responseData);
+        });
+    }
 
-	public function first()
-	{
-		return $this->request->handleWithExceptions( function ()
-		{
-			$response = $this->request->curl->get( "/{$this->entity}?skippages=0&pagesize=1" );
+    public function first()
+    {
+        return $this->request->handleWithExceptions(function () {
+            $response = $this->request->curl->get("/{$this->entity}?skippages=0&pagesize=1");
 
-			$responseData = json_decode( $response->getBody()->getContents() );
-			$fetchedItems = $responseData->collection;
+            $responseData = json_decode($response->getBody()->getContents());
+            $fetchedItems = $responseData->collection;
 
-			if ( count( $fetchedItems ) === 0 )
-			{
-				return null;
-			}
+            if (count($fetchedItems) === 0) {
+                return;
+            }
 
-			return new $this->model( $this->request, $fetchedItems[0] );
-		} );
-	}
+            return new $this->model($this->request, $fetchedItems[0]);
+        });
+    }
 
-	/**
-	 * @param array $filters
-	 *
-	 * @return \Illuminate\Support\Collection|Model[]
-	 */
-	public function get( $filters = [] )
-	{
-		$urlFilters = '';
+    /**
+     * @param array $filters
+     *
+     * @return \Illuminate\Support\Collection|Model[]
+     */
+    public function get($filters = [])
+    {
+        $urlFilters = '';
 
-		if ( count( $filters ) > 0 )
-		{
-			$urlFilters .= '?filter=';
+        if (count($filters) > 0) {
+            $urlFilters .= '?filter=';
 
-			$i = 1;
-			foreach ( $filters as $filter )
-			{
-				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+            $i = 1;
+            foreach ($filters as $filter) {
+                $urlFilters .= $filter[0].$this->switchComparison($filter[1]).$this->escapeFilter($filter[2]); // todo fix arrays aswell ([1,2,3,...] string)
 
-				if ( count( $filters ) > $i )
-				{
-					$urlFilters .= '$and:'; // todo allow $or: also
-				}
+                if (count($filters) > $i) {
+                    $urlFilters .= '$and:'; // todo allow $or: also
+                }
 
-				$i ++;
-			}
-		}
+                $i++;
+            }
+        }
 
-		return $this->request->handleWithExceptions( function () use ( $urlFilters )
-		{
-			$response = $this->request->curl->get( "/{$this->entity}{$urlFilters}" );
+        return $this->request->handleWithExceptions(function () use ($urlFilters) {
+            $response = $this->request->curl->get("/{$this->entity}{$urlFilters}");
 
-			$responseData = json_decode( $response->getBody()->getContents() );
+            $responseData = json_decode($response->getBody()->getContents());
 
-			$fetchedItems = $responseData->collection;
+            $fetchedItems = $responseData->collection;
 
-			$items = collect( [] );
-			foreach ( $fetchedItems as $item )
-			{
-				/** @var Model $model */
-				$model = new $this->model( $this->request, $item );
+            $items = collect([]);
+            foreach ($fetchedItems as $item) {
+                /** @var Model $model */
+                $model = new $this->model($this->request, $item);
 
-				$items->push( $model );
-			}
+                $items->push($model);
+            }
 
-			return $items;
-		} );
-	}
-	
-	/**
-	 * @param int $page
-	 * @param int $pageSize
-	 * @param array $filters
-	 *
-	 * @return \Illuminate\Support\Collection|Model[]
-	 */
-	public function getByPage( $page = 0, $pageSize = 500, $filters = [] )
-	{
-		$items    = collect( [] );
+            return $items;
+        });
+    }
 
-		$urlFilters = '';
+    /**
+     * @param int   $page
+     * @param int   $pageSize
+     * @param array $filters
+     *
+     * @return \Illuminate\Support\Collection|Model[]
+     */
+    public function getByPage($page = 0, $pageSize = 500, $filters = [])
+    {
+        $items = collect([]);
 
-		if ( count( $filters ) > 0 )
-		{
-			$urlFilters .= '&filter=';
+        $urlFilters = '';
 
-			$i = 1;
-			foreach ( $filters as $filter )
-			{
-				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+        if (count($filters) > 0) {
+            $urlFilters .= '&filter=';
 
-				if ( count( $filters ) > $i )
-				{
-					$urlFilters .= '$and:'; // todo allow $or: also
-				}
+            $i = 1;
+            foreach ($filters as $filter) {
+                $urlFilters .= $filter[0].$this->switchComparison($filter[1]).$this->escapeFilter($filter[2]); // todo fix arrays aswell ([1,2,3,...] string)
 
-				$i ++;
-			}
-		}
+                if (count($filters) > $i) {
+                    $urlFilters .= '$and:'; // todo allow $or: also
+                }
 
-		return $this->request->handleWithExceptions( function () use ( $pageSize, &$page, &$items, $urlFilters )
-		{
-			$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}" );
+                $i++;
+            }
+        }
 
-			$responseData = json_decode( $response->getBody()->getContents() );
-			$fetchedItems = $responseData->collection;
+        return $this->request->handleWithExceptions(function () use ($pageSize, &$page, &$items, $urlFilters) {
+            $response = $this->request->curl->get("/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}");
 
-			foreach ( $fetchedItems as $item )
-			{
-				/** @var Model $model */
-				$model = new $this->model( $this->request, $item );
+            $responseData = json_decode($response->getBody()->getContents());
+            $fetchedItems = $responseData->collection;
 
-				$items->push( $model );
-			}
+            foreach ($fetchedItems as $item) {
+                /** @var Model $model */
+                $model = new $this->model($this->request, $item);
 
-			return $items;
-		} );
-	}
+                $items->push($model);
+            }
 
-	/**
-	 * @param array $filters
-	 *
-	 * @return \Illuminate\Support\Collection|Model[]
-	 */
-	public function all( $filters = [], $pageSize = 500 )
-	{
-		$page     = 0;
-		$pagesize = $pageSize;
-		$hasMore  = true;
-		$items    = collect( [] );
+            return $items;
+        });
+    }
 
-		$urlFilters = '';
+    /**
+     * @param array $filters
+     *
+     * @return \Illuminate\Support\Collection|Model[]
+     */
+    public function all($filters = [], $pageSize = 500)
+    {
+        $page = 0;
+        $pagesize = $pageSize;
+        $hasMore = true;
+        $items = collect([]);
 
-		if ( count( $filters ) > 0 )
-		{
-			$urlFilters .= '&filter=';
+        $urlFilters = '';
 
-			$i = 1;
-			foreach ( $filters as $filter )
-			{
-				$urlFilters .= $filter[0] . $this->switchComparison( $filter[1] ) . $this->escapeFilter( $filter[2] ); // todo fix arrays aswell ([1,2,3,...] string)
+        if (count($filters) > 0) {
+            $urlFilters .= '&filter=';
 
-				if ( count( $filters ) > $i )
-				{
-					$urlFilters .= '$and:'; // todo allow $or: also
-				}
+            $i = 1;
+            foreach ($filters as $filter) {
+                $urlFilters .= $filter[0].$this->switchComparison($filter[1]).$this->escapeFilter($filter[2]); // todo fix arrays aswell ([1,2,3,...] string)
 
-				$i ++;
-			}
-		}
+                if (count($filters) > $i) {
+                    $urlFilters .= '$and:'; // todo allow $or: also
+                }
 
-		return $this->request->handleWithExceptions( function () use ( &$hasMore, $pagesize, &$page, &$items, $urlFilters )
-		{
-			while ( $hasMore )
-			{
-				$response = $this->request->curl->get( "/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}" );
+                $i++;
+            }
+        }
 
-				$responseData = json_decode( $response->getBody()->getContents() );
-				$fetchedItems = $responseData->collection;
+        return $this->request->handleWithExceptions(function () use (&$hasMore, $pagesize, &$page, &$items, $urlFilters) {
+            while ($hasMore) {
+                $response = $this->request->curl->get("/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}");
 
-				if ( count( $fetchedItems ) === 0 )
-				{
-					$hasMore = false;
+                $responseData = json_decode($response->getBody()->getContents());
+                $fetchedItems = $responseData->collection;
 
-					break;
-				}
+                if (count($fetchedItems) === 0) {
+                    $hasMore = false;
 
-				foreach ( $fetchedItems as $item )
-				{
-					/** @var Model $model */
-					$model = new $this->model( $this->request, $item );
+                    break;
+                }
 
-					$items->push( $model );
-				}
+                foreach ($fetchedItems as $item) {
+                    /** @var Model $model */
+                    $model = new $this->model($this->request, $item);
 
-				$page ++;
-			}
+                    $items->push($model);
+                }
 
-			return $items;
-		} );
-	}
+                $page++;
+            }
 
-	public function create( $data )
-	{
-		return $this->request->handleWithExceptions( function () use ( $data )
-		{
-			$response = $this->request->curl->post( "/{$this->entity}", [
-				'json' => $data
-			] );
+            return $items;
+        });
+    }
 
-			$responseData = json_decode( $response->getBody()->getContents() );
+    public function create($data)
+    {
+        return $this->request->handleWithExceptions(function () use ($data) {
+            $response = $this->request->curl->post("/{$this->entity}", [
+                'json' => $data,
+            ]);
 
-			return new $this->model( $this->request, $responseData );
-		} );
-	}
+            $responseData = json_decode($response->getBody()->getContents());
 
-	private function escapeFilter( $variable )
-	{
-		$escapedStrings = [
-			"$",
-			'(',
-			')',
-			'*',
-			'[',
-			']',
-			',',
-		];
+            return new $this->model($this->request, $responseData);
+        });
+    }
 
-		$urlencodedStrings = [
-			'+',
-			' ',
-		];
+    private function escapeFilter($variable)
+    {
+        $escapedStrings = [
+            '$',
+            '(',
+            ')',
+            '*',
+            '[',
+            ']',
+            ',',
+        ];
 
-		foreach ( $escapedStrings as $escapedString )
-		{
-			$variable = str_replace( $escapedString, '$' . $escapedString, $variable );
-		}
+        $urlencodedStrings = [
+            '+',
+            ' ',
+        ];
 
-		foreach ( $urlencodedStrings as $urlencodedString )
-		{
-			$variable = str_replace( $urlencodedString, urlencode( $urlencodedString ), $variable );
-		}
+        foreach ($escapedStrings as $escapedString) {
+            $variable = str_replace($escapedString, '$'.$escapedString, $variable);
+        }
 
-		return $variable;
-	}
+        foreach ($urlencodedStrings as $urlencodedString) {
+            $variable = str_replace($urlencodedString, urlencode($urlencodedString), $variable);
+        }
 
-	private function switchComparison( $comparison )
-	{
-		switch ( $comparison )
-		{
-			case '=':
-			case '==':
-				$newComparison = '$eq:';
-				break;
-			case '!=':
-				$newComparison = '$ne:';
-				break;
-			case '>':
-				$newComparison = '$gt:';
-				break;
-			case '>=':
-				$newComparison = '$gte:';
-				break;
-			case '<':
-				$newComparison = '$lt:';
-				break;
-			case '<=':
-				$newComparison = '$lte:';
-				break;
-			case 'like':
-				$newComparison = '$like:';
-				break;
-			case 'in':
-				$newComparison = '$in:';
-				break;
-			case '!in':
-				$newComparison = '$nin:';
-				break;
-			default:
-				$newComparison = "${$comparison}:";
-				break;
-		}
+        return $variable;
+    }
 
-		return $newComparison;
-	}
+    private function switchComparison($comparison)
+    {
+        switch ($comparison) {
+            case '=':
+            case '==':
+                $newComparison = '$eq:';
+                break;
+            case '!=':
+                $newComparison = '$ne:';
+                break;
+            case '>':
+                $newComparison = '$gt:';
+                break;
+            case '>=':
+                $newComparison = '$gte:';
+                break;
+            case '<':
+                $newComparison = '$lt:';
+                break;
+            case '<=':
+                $newComparison = '$lte:';
+                break;
+            case 'like':
+                $newComparison = '$like:';
+                break;
+            case 'in':
+                $newComparison = '$in:';
+                break;
+            case '!in':
+                $newComparison = '$nin:';
+                break;
+            default:
+                $newComparison = "${$comparison}:";
+                break;
+        }
 
+        return $newComparison;
+    }
 }

@@ -9,55 +9,49 @@ use LasseRafn\Economic\Exceptions\EconomicRequestException;
 
 class Request
 {
-	public $curl;
+    public $curl;
 
-	public function __construct( $agreementToken = '', $apiSecret = '' )
-	{
-		$this->curl = new Client( [
-			'base_uri' => config( 'economic.request_endpoint' ),
-			'headers'  => [
-				'X-AppSecretToken'      => $apiSecret,
-				'X-AgreementGrantToken' => $agreementToken,
-				'Content-Type'          => 'application/json'
-			]
-		] );
-	}
+    public function __construct($agreementToken = '', $apiSecret = '')
+    {
+        $this->curl = new Client([
+            'base_uri' => config('economic.request_endpoint'),
+            'headers'  => [
+                'X-AppSecretToken'      => $apiSecret,
+                'X-AgreementGrantToken' => $agreementToken,
+                'Content-Type'          => 'application/json',
+            ],
+        ]);
+    }
 
-	public function handleWithExceptions( $callback )
-	{
-		try
-		{
-			return $callback();
-		} catch ( ClientException $exception )
-		{
-			$message = $exception->getMessage();
-			$code    = $exception->getCode();
+    public function handleWithExceptions($callback)
+    {
+        try {
+            return $callback();
+        } catch (ClientException $exception) {
+            $message = $exception->getMessage();
+            $code = $exception->getCode();
 
-			if ( $exception->hasResponse() )
-			{
-				$message = $exception->getResponse()->getBody()->getContents();
-				$code    = $exception->getResponse()->getStatusCode();
-			}
+            if ($exception->hasResponse()) {
+                $message = $exception->getResponse()->getBody()->getContents();
+                $code = $exception->getResponse()->getStatusCode();
+            }
 
-			throw new EconomicRequestException( $message, $code );
-		} catch ( ServerException $exception )
-		{
-			$message = $exception->getMessage();
-			$code    = $exception->getCode();
+            throw new EconomicRequestException($message, $code);
+        } catch (ServerException $exception) {
+            $message = $exception->getMessage();
+            $code = $exception->getCode();
 
-			if ( $exception->hasResponse() )
-			{
-				$message = $exception->getResponse()->getBody()->getContents();
-				$code    = $exception->getResponse()->getStatusCode();
-			}
+            if ($exception->hasResponse()) {
+                $message = $exception->getResponse()->getBody()->getContents();
+                $code = $exception->getResponse()->getStatusCode();
+            }
 
-			throw new EconomicRequestException( $message, $code );
-		} catch ( \Exception $exception )
-		{
-			$message = $exception->getMessage();
-			$code    = $exception->getCode();
+            throw new EconomicRequestException($message, $code);
+        } catch (\Exception $exception) {
+            $message = $exception->getMessage();
+            $code = $exception->getCode();
 
-			throw new EconomicClientException( $message, $code );
-		}
-	}
+            throw new EconomicClientException($message, $code);
+        }
+    }
 }

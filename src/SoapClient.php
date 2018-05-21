@@ -206,8 +206,6 @@ class SoapClient
             return $entries;
         }
 
-        $project_costs = $project_costs->CostTypeHandle;
-
         $handles = [];
 
         foreach ( $project_costs as $project_cost ) {

@@ -197,6 +197,45 @@ class SoapClient
 
     public function getProjectCosts()
     {
-        return $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResult;
+        $project_costs = $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResult;
+
+        $entries = collect( [] );
+
+        if ( !isset( $project_costs->CostTypeHandle ) ) {
+
+            return $entries;
+        }
+
+        $project_costs = $project_costs->CostTypeHandle;
+
+        $handles = [];
+
+        foreach ( $project_costs as $project_cost ) {
+            if ( !isset( $project_cost->Number ) ) {
+                continue;
+            }
+
+            $handles[] = [ 'Number' => $project_cost->Number ];
+        }
+
+        if ( count( $handles ) > 0 ) {
+            try {
+                $projectCostResponse = $this->soap->call( 'economic.CostType_GetDataArray', [
+                    'CostType_GetDataArray' => [
+                        'entityHandles' => $handles,
+                    ],
+                ] )->CostType_GetDataArrayResult;
+            } catch ( \SoapFault $exception ) {
+                throw $exception;
+            }
+
+            if ( isset( $projectCostResponse->CostTypeData ) ) {
+                foreach ( $projectCostResponse->CostTypeData as $item ) {
+                    $entries->push( $item );
+                }
+            }
+        }
+
+        return $entries;
     }
 }

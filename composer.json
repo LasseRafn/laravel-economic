@@ -13,7 +13,7 @@
         "php": ">=5.4.0",
         "illuminate/support": "5.*",
         "guzzlehttp/guzzle": "^6.2",
-        "artisaninweb/laravel-soap": "0.3.0.7"
+        "artisaninweb/laravel-soap": "^0.3"
     },
     "require-dev": {
     },

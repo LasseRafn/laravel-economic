@@ -101,11 +101,19 @@ class Economic
     }
 
     /**
-     * This endpoint is not yet documented by the API team.
+     * @deprecated use suppliers() instead
      *
      * @return SupplierBuilder()|Builder
      */
     public function experimentalSuppliers()
+    {
+        return $this->suppliers();
+    }
+
+    /**
+     * @return SupplierBuilder()|Builder
+     */
+    public function suppliers()
     {
         return new SupplierBuilder($this->request);
     }

@@ -46,12 +46,22 @@ class Model
 		return $data;
 	}
 
-	public function getPuttableFields() {
+	/**
+	 * Returns an array of data that will be used for PUT/update requests towards this model.
+	 *
+	 * @param array $overrides
+	 *
+	 * @return array
+	 */
+	public function toPutArray( $overrides = [] ) {
 		if ( isset( $this->puttable ) ) {
-			return array_intersect( $this->puttable, $this->toArray() );
+			return array_merge( array_only(
+				$this->toArray(),
+				$this->puttable
+			), $overrides );
 		}
 
-		return $this->toArray();
+		return array_merge( $this->toArray(), $overrides );
 	}
 
 	protected function setAttribute( $attribute, $value ) {
@@ -65,11 +75,9 @@ class Model
 	}
 
 	public function update( $data = [] ) {
-		$data = array_merge( $this->getPuttableFields(), $data );
-
 		return $this->request->handleWithExceptions( function () use ( $data ) {
 			$response = $this->request->curl->put( "/{$this->entity}/{$this->{$this->primaryKey}}", [
-				'json' => $data,
+				'json' => $this->toPutArray( $data ),
 			] );
 
 			$responseData = json_decode( $response->getBody()->getContents() );

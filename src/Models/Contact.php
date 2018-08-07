@@ -9,13 +9,14 @@ class Contact extends Model
 {
     protected $entity = 'customers/:customerNumber/contacts';
     protected $primaryKey = 'customerContactNumber';
-    protected $fillable = [
+    protected $puttable = [
         'customerContactNumber',
-        'self',
         'email',
         'phone',
         'name',
         'customer',
+        'eInvoiceId',
+        'emailNotifications',
     ];
 
     public $customerContactNumber;
@@ -23,6 +24,9 @@ class Contact extends Model
     public $phone;
     public $email;
     public $name;
+    public $eInvoiceId;
+    public $emailNotifications;
+    public $notes;
 
     /** @var Customer $customer */
     public $customer;

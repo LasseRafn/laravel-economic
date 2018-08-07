@@ -8,7 +8,7 @@ class Supplier extends Model
 {
     protected $entity = 'suppliers';
     protected $primaryKey = 'supplierNumber';
-    protected $fillable = [
+    protected $puttable = [
         'address',
         'attention',
         'bankAccount',

@@ -8,5 +8,4 @@ class SupplierGroup extends Model
 {
     protected $entity = 'supplier-groups';
     protected $primaryKey = 'supplierGroupNumber';
-    protected $fillable = [];
 }

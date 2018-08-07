@@ -8,26 +8,6 @@ class BookedInvoice extends Model
 {
     protected $entity = 'invoices/booked';
     protected $primaryKey = 'bookedInvoiceNumber';
-    protected $fillable = [
-        'bookedInvoiceNumber',
-        'self',
-        'pdf',
-        'dueDate',
-        'date',
-        'currency',
-        'customer',
-        'layout',
-        'paymentTerms',
-        'recipient',
-        'lines',
-        'project',
-        'notes',
-        'references',
-        'grossAmount',
-        'netAmount',
-        'remainder',
-        'remainderInBaseCurrency',
-    ];
 
     public $bookedInvoiceNumber;
     public $self;

@@ -8,18 +8,6 @@ class Employee extends Model
 {
     protected $entity = 'employees';
     protected $primaryKey = 'employeeNumber';
-    protected $fillable = [
-        'barred',
-        'bookedInvoices',
-        'customers',
-        'draftInvoices',
-        'email',
-        'employeeGroup',
-        'employeeNumber',
-        'name',
-        'phone',
-        'self',
-    ];
 
     public $barred;
     public $bookedInvoices;

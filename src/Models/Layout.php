@@ -8,10 +8,9 @@ class Layout extends Model
 {
     protected $entity = 'layouts';
     protected $primaryKey = 'layoutNumber';
-    protected $fillable = [
-        'layoutNumber',
-        'name',
-        'self',
-        'deleted',
-    ];
+
+    public $layoutNumber;
+    public $name;
+    public $self;
+    public $deleted;
 }

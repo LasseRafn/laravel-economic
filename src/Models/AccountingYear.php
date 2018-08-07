@@ -8,20 +8,6 @@ class AccountingYear extends Model
 {
     protected $entity = ' /accounting-years/:accountingYear';
     protected $primaryKey = 'accountingYear';
-    protected $fillable = [
-        'attachment',
-        'booked',
-        'date',
-        'dueDate',
-        'lines',
-        'numberSeries',
-        'remainder',
-        'remainderInDefaultCurrency',
-        'self',
-        'voucherId',
-        'voucherNumber',
-        'voucherType',
-    ];
 
     public $attachment;
     public $booked;

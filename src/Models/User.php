@@ -8,9 +8,8 @@ class User extends Model
 {
     protected $entity = 'users';
     protected $primaryKey = 'userNumber';
-    protected $fillable = [
-        'userNumber',
-        'name',
-        'self',
-    ];
+
+    public $userNumber;
+    public $name;
+    public $self;
 }

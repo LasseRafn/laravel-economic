@@ -8,21 +8,6 @@ class Entry extends Model
 {
     protected $entity = 'entries';
     protected $primaryKey = 'entryNumber';
-    protected $fillable = [
-        'entryNumber',
-        'account',
-        'amount',
-        'amountInBaseCurrency',
-        'currency',
-        'date',
-        'departmentalDistribution',
-        'entryType',
-        'project',
-        'self',
-        'text',
-        'vatAccount',
-        'voucherNumber',
-    ];
 
     public $entryNumber;
     public $account;

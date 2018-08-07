@@ -8,11 +8,6 @@ class Journal extends Model
 {
     protected $entity = 'journals-experimental';
     protected $primaryKey = 'journalNumber';
-    protected $fillable = [
-        'journalNumber',
-        'entries',
-        'name',
-    ];
 
     public $journalNumber;
     public $entries;

@@ -8,9 +8,12 @@ class CustomerGroup extends Model
 {
     protected $entity = 'customer-groups';
     protected $primaryKey = 'customerGroupNumber';
-    protected $fillable = [
+    protected $puttable = [
         'customerGroupNumber',
         'name',
-        'self',
     ];
+
+    public $customerGroupNumber;
+    public $name;
+    public $self;
 }

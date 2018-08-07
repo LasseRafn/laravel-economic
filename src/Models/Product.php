@@ -6,32 +6,36 @@ use LasseRafn\Economic\Utils\Model;
 
 class Product extends Model
 {
-    protected $entity = 'products';
-    protected $primaryKey = 'productNumber';
-    protected $fillable = [
-        'productNumber',
-        'name',
-        'self',
-        'unit',
-        'description',
-        'departmentalDistribution',
-        'recommendedPrice',
-        'salesPrice',
-        'costPrice',
-    ];
+	protected $entity     = 'products';
+	protected $primaryKey = 'productNumber';
 
-    public $productNumber;
-    public $departmentalDistribution;
-    public $name;
-    public $self;
-    public $unit;
-    public $description;
-    public $recommendedPrice = 0;
-    public $salesPrice = 0;
-    public $costPrice = 0;
+	protected $puttable = [
+		'productNumber',
+		'name',
+		'description',
+		'costPrice',
+		'recommendedPrice',
+		'salesPrice',
+		'barCode',
+		'barred',
+		'inventory',
+		'unit',
+		'productGroup',
+		'departmentalDistribution',
+	];
 
-    /**
-     * @var object productGroup
-     */
-    public $productGroup;
+	public $productNumber;
+	public $departmentalDistribution;
+	public $name;
+	public $self;
+	public $unit;
+	public $description;
+	public $recommendedPrice = 0;
+	public $salesPrice       = 0;
+	public $costPrice        = 0;
+
+	/**
+	 * @var object productGroup
+	 */
+	public $productGroup;
 }

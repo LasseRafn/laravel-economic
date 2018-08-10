@@ -75,9 +75,13 @@ class Model
 	}
 
 	public function update( $data = [] ) {
+		return $this->updateRaw( $this->toPutArray( $data ) );
+	}
+
+	public function updateRaw( $data = [] ) {
 		return $this->request->handleWithExceptions( function () use ( $data ) {
 			$response = $this->request->curl->put( "/{$this->entity}/{$this->{$this->primaryKey}}", [
-				'json' => $this->toPutArray( $data ),
+				'json' => $data,
 			] );
 
 			$responseData = json_decode( $response->getBody()->getContents() );

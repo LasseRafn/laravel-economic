@@ -13,11 +13,6 @@ class PaymentTerm extends Model
 		'description',
 		'name',
 		'paymentTermsType',
-		'contraAccountForPrepaidAmount',
-		'contraAccountForRemainderAmount',
-		'percentageForPrepaidAmount',
-		'percentageForRemainderAmount',
-		'creditCardCompany',
 	];
 
 	public $daysOfCredit;

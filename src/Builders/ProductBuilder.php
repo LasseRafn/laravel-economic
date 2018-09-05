@@ -25,6 +25,7 @@ class ProductBuilder extends Builder
 	 */
 	public function encode( $unencodedId ) {
 		$replacements = [
+			'_'  => '_8_',
 			'<'  => '_0_',
 			'>'  => '_1_',
 			'*'  => '_2_',
@@ -33,7 +34,6 @@ class ProductBuilder extends Builder
 			'&'  => '_5_',
 			'/'  => '_6_',
 			'\\' => '_7_',
-			'_'  => '_8_',
 			' '  => '_9_',
 			'?'  => '_10_',
 			'.'  => '_11_',

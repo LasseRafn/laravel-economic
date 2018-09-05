@@ -7,7 +7,7 @@ use LasseRafn\Economic\Utils\Request;
 
 class Builder
 {
-    private $request;
+    protected $request;
     protected $entity;
 
     /** @var Model */

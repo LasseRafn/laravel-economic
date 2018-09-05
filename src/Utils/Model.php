@@ -80,7 +80,7 @@ class Model
 
 	public function updateRaw( $data = [] ) {
 		return $this->request->handleWithExceptions( function () use ( $data ) {
-			$response = $this->request->curl->put( "/{$this->entity}/{$this->{$this->primaryKey}}", [
+			$response = $this->request->curl->put( $this->getUpdateEndpoint(), [
 				'json' => $data,
 			] );
 
@@ -88,5 +88,9 @@ class Model
 
 			return new $this->modelClass( $this->request, $responseData );
 		} );
+	}
+
+	protected function getUpdateEndpoint() {
+		return "/{$this->entity}/{$this->{$this->primaryKey}}";
 	}
 }

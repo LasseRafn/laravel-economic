@@ -24,6 +24,10 @@ class Product extends Model
 		'departmentalDistribution',
 	];
 
+	protected function getUpdateEndpoint() {
+		return $this->self;
+	}
+
 	public $productNumber;
 	public $departmentalDistribution;
 	public $name;

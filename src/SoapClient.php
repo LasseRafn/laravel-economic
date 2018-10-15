@@ -208,7 +208,7 @@ class SoapClient
 
         $handles = [];
 
-        foreach ( $project_costs as $project_cost ) {
+        foreach ( $project_costs->CostTypeHandle as $project_cost ) {
             if ( !isset( $project_cost->Number ) ) {
                 continue;
             }

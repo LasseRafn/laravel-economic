@@ -2,6 +2,7 @@
 
 namespace LasseRafn\Economic\Models;
 
+use LasseRafn\Economic\Builders\EntryBuilder;
 use LasseRafn\Economic\Utils\Model;
 
 class Journal extends Model
@@ -15,6 +16,10 @@ class Journal extends Model
     ];
 
     public $journalNumber;
-    public $entries;
     public $name;
+
+    public function entries()
+    {
+        return new EntryBuilder( $this->request );
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace LasseRafn\Economic\Models;
 
-use LasseRafn\Economic\Builders\EntryBuilder;
 use LasseRafn\Economic\Utils\Model;
 
 class Journal extends Model
@@ -20,6 +19,23 @@ class Journal extends Model
 
     public function entries()
     {
-        return new EntryBuilder( $this->request );
+
+        return $this->request->handleWithExceptions( function () {
+            $response = $this->request->curl->get( "/{$this->entity}/{$this->{$this->primaryKey}}/entries" );
+
+            $responseData = json_decode( $response->getBody()->getContents() );
+
+            $fetchedItems = $responseData->collection;
+
+            $items = collect( [] );
+            foreach ( $fetchedItems as $item ) {
+                /** @var Model $model */
+                $model = new Entry( $this->request, $item );
+
+                $items->push( $model );
+            }
+
+            return $items;
+        } );
     }
 }

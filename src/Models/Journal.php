@@ -21,7 +21,8 @@ class Journal extends Model
     {
 
         return $this->request->handleWithExceptions( function () {
-            $response = $this->request->curl->get( "/{$this->entity}/{$this->{$this->primaryKey}}/entries" );
+            $response =
+                $this->request->curl->get( "/{$this->entity}/{$this->{$this->primaryKey}}/entries?pagesize=1000" );
 
             $responseData = json_decode( $response->getBody()->getContents() );
 

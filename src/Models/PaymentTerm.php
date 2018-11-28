@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class PaymentTerm extends Model
 {
-    protected $entity = 'payment-terms';
+    protected $entity     = 'payment-terms';
     protected $primaryKey = 'paymentTermsNumber';
-    protected $puttable = [
+    protected $puttable   = [
         'daysOfCredit',
         'description',
         'name',

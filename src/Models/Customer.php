@@ -7,9 +7,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Customer extends Model
 {
-    protected $entity = 'customers';
+    protected $entity     = 'customers';
     protected $primaryKey = 'customerNumber';
-    protected $puttable = [
+    protected $puttable   = [
         'barred',
         'address',
         'corporateIdentificationNumber',
@@ -52,18 +52,18 @@ class Customer extends Model
     public $contacts;
     public $country;
     public $zip;
-    public $templates;
-    public $totals;
-    public $website;
-    public $deliveryLocations;
-    public $invoices;
-    public $self;
-    public $email;
-    public $attention;
-    public $ean;
-    public $layout;
-    public $salesPerson;
-    public $customerContact;
+    public    $templates;
+    public    $totals;
+    public    $website;
+    public    $deliveryLocations;
+    public    $invoices;
+    public    $self;
+    public    $email;
+    public    $attention;
+    public    $ean;
+    public    $layout;
+    public    $salesPerson;
+    public    $customerContact;
 
     /** @var PaymentTerm */
     public $paymentTerms;
@@ -79,6 +79,6 @@ class Customer extends Model
      */
     public function contacts()
     {
-        return new ContactBuilder($this->request, $this->customerNumber);
+        return new ContactBuilder( $this->request, $this->customerNumber );
     }
 }

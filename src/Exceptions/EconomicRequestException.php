@@ -6,9 +6,9 @@ class EconomicRequestException extends \Exception
 {
     public function getExceptionFromJson()
     {
-        $body = json_decode($this->getMessage());
+        $body = json_decode( $this->getMessage() );
 
-        if (isset($body->message)) {
+        if ( isset( $body->message ) ) {
             return $body->message;
         }
 
@@ -17,9 +17,9 @@ class EconomicRequestException extends \Exception
 
     public function getErrorsFromJson()
     {
-        $body = json_decode($this->getMessage());
+        $body = json_decode( $this->getMessage() );
 
-        if (isset($body->errors)) {
+        if ( isset( $body->errors ) ) {
             return $body->errors;
         }
 

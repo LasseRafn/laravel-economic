@@ -49,9 +49,9 @@ class Order
     public $DeliveryCounty;
     public $VatZone;
 
-    public function __construct( array $data )
+    public function __construct(array $data)
     {
-        foreach ( $data as $key => $value ) {
+        foreach ($data as $key => $value) {
             $this->{$key} = $value;
         }
     }
@@ -61,25 +61,25 @@ class Order
         return [
             'Id'                  => $this->Id,
             'Number'              => $this->Handle,
-            'Handle'              => [ 'Id' => (int) $this->Handle ],
-            'DebtorHandle'        => [ 'Number' => (string) $this->DebtorHandle ],
+            'Handle'              => ['Id' => (int) $this->Handle],
+            'DebtorHandle'        => ['Number' => (string) $this->DebtorHandle],
             'DebtorName'          => $this->DebtorName,
-            'DebtorAddress'       => trim( $this->DebtorAddress ),
+            'DebtorAddress'       => trim($this->DebtorAddress),
             'DebtorPostalCode'    => $this->DebtorPostalCode,
             'DebtorCity'          => $this->DebtorCity,
             'DebtorCountry'       => $this->DebtorCountry,
-            'Date'                => date( 'Y-m-d\TH:i:s', strtotime( $this->Date ) ),
-            'TermOfPaymentHandle' => [ 'Id' => (int) $this->TermOfPaymentHandle ],
-            'DueDate'             => date( 'Y-m-d\TH:i:s', strtotime( $this->DueDate ) ),
-            'CurrencyHandle'      => [ 'Code' => (string) $this->CurrencyHandle ],
+            'Date'                => date('Y-m-d\TH:i:s', strtotime($this->Date)),
+            'TermOfPaymentHandle' => ['Id' => (int) $this->TermOfPaymentHandle],
+            'DueDate'             => date('Y-m-d\TH:i:s', strtotime($this->DueDate)),
+            'CurrencyHandle'      => ['Code' => (string) $this->CurrencyHandle],
             'ExchangeRate'        => $this->ExchangeRate,
             'IsVatIncluded'       => $this->IsVatIncluded,
-            'LayoutHandle'        => [ 'Id' => (int) $this->LayoutHandle ],
+            'LayoutHandle'        => ['Id' => (int) $this->LayoutHandle],
             'DeliveryAddress'     => $this->DeliveryAddress,
             'DeliveryPostalCode'  => $this->DeliveryPostalCode,
             'DeliveryCity'        => $this->DeliveryCity,
             'DeliveryCountry'     => $this->DeliveryCountry,
-            'DeliveryDate'        => date( 'Y-m-d\TH:i:s', strtotime( $this->DeliveryDate ) ),
+            'DeliveryDate'        => date('Y-m-d\TH:i:s', strtotime($this->DeliveryDate)),
             //			'Heading'                => $this->Heading,
             //			'TextLine1'              => $this->TextLine1,
             //			'TextLine2'              => $this->TextLine2,
@@ -91,7 +91,7 @@ class Order
             'Margin'              => (float) $this->Margin,
             'MarginAsPercent'     => (float) $this->MarginAsPercent,
             'RoundingAmount'      => (float) $this->RoundingAmount,
-            'VatZone'             => [ 'Number' => (string) $this->VatZone ],
+            'VatZone'             => ['Number' => (string) $this->VatZone],
         ];
     }
 }

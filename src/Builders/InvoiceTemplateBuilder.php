@@ -15,13 +15,13 @@ use LasseRafn\Economic\Utils\Request;
 class InvoiceTemplateBuilder extends Builder
 {
     protected $entity = 'customers/:customerNumber/templates/invoice';
-    protected $model  = InvoiceTemplate::class;
+    protected $model = InvoiceTemplate::class;
 
-    public function __construct( Request $request, $customerNumber )
+    public function __construct(Request $request, $customerNumber)
     {
-        $this->entity = str_replace( ':customerNumber', $customerNumber, $this->entity );
+        $this->entity = str_replace(':customerNumber', $customerNumber, $this->entity);
 
-        parent::__construct( $request );
+        parent::__construct($request);
     }
 
     public function get( $filters = [] )

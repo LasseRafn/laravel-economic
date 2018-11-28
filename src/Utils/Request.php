@@ -11,47 +11,47 @@ class Request
 {
     public $curl;
 
-    public function __construct($agreementToken = '', $apiSecret = '')
+    public function __construct( $agreementToken = '', $apiSecret = '' )
     {
-        $this->curl = new Client([
-            'base_uri' => config('economic.request_endpoint'),
+        $this->curl = new Client( [
+            'base_uri' => config( 'economic.request_endpoint' ),
             'headers'  => [
                 'X-AppSecretToken'      => $apiSecret,
                 'X-AgreementGrantToken' => $agreementToken,
                 'Content-Type'          => 'application/json',
             ],
-        ]);
+        ] );
     }
 
-    public function handleWithExceptions($callback)
+    public function handleWithExceptions( $callback )
     {
         try {
             return $callback();
-        } catch (ClientException $exception) {
+        } catch ( ClientException $exception ) {
             $message = $exception->getMessage();
-            $code = $exception->getCode();
+            $code    = $exception->getCode();
 
-            if ($exception->hasResponse()) {
+            if ( $exception->hasResponse() ) {
                 $message = $exception->getResponse()->getBody()->getContents();
-                $code = $exception->getResponse()->getStatusCode();
+                $code    = $exception->getResponse()->getStatusCode();
             }
 
-            throw new EconomicRequestException($message, $code);
-        } catch (ServerException $exception) {
+            throw new EconomicRequestException( $message, $code );
+        } catch ( ServerException $exception ) {
             $message = $exception->getMessage();
-            $code = $exception->getCode();
+            $code    = $exception->getCode();
 
-            if ($exception->hasResponse()) {
+            if ( $exception->hasResponse() ) {
                 $message = $exception->getResponse()->getBody()->getContents();
-                $code = $exception->getResponse()->getStatusCode();
+                $code    = $exception->getResponse()->getStatusCode();
             }
 
-            throw new EconomicRequestException($message, $code);
-        } catch (\Exception $exception) {
+            throw new EconomicRequestException( $message, $code );
+        } catch ( \Exception $exception ) {
             $message = $exception->getMessage();
-            $code = $exception->getCode();
+            $code    = $exception->getCode();
 
-            throw new EconomicClientException($message, $code);
+            throw new EconomicClientException( $message, $code );
         }
     }
 }

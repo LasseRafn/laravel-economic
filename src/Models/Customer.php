@@ -3,6 +3,7 @@
 namespace LasseRafn\Economic\Models;
 
 use LasseRafn\Economic\Builders\ContactBuilder;
+use LasseRafn\Economic\Builders\InvoiceTemplateBuilder;
 use LasseRafn\Economic\Utils\Model;
 
 class Customer extends Model
@@ -80,5 +81,10 @@ class Customer extends Model
     public function contacts()
     {
         return new ContactBuilder( $this->request, $this->customerNumber );
+    }
+
+    public function invoiceTemplates()
+    {
+        return new InvoiceTemplateBuilder( $this->request, $this->customerNumber );
     }
 }

@@ -6,11 +6,11 @@ use LasseRafn\Economic\Utils\Model;
 
 class VatZone extends Model
 {
-	protected $entity     = 'vat-zones';
-	protected $primaryKey = 'vatZoneNumber';
+    protected $entity = 'vat-zones';
+    protected $primaryKey = 'vatZoneNumber';
 
-	public $vatZoneNumber;
-	public $name;
-	public $enabledForCustomer;
-	public $self;
+    public $vatZoneNumber;
+    public $name;
+    public $enabledForCustomer;
+    public $self;
 }

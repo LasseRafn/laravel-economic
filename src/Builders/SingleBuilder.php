@@ -7,13 +7,13 @@ use LasseRafn\Economic\Utils\Request;
 
 class SingleBuilder
 {
-    private $request;
+    private   $request;
     protected $entity;
 
     /** @var Model */
     protected $model;
 
-    public function __construct(Request $request)
+    public function __construct( Request $request )
     {
         $this->request = $request;
     }
@@ -23,15 +23,15 @@ class SingleBuilder
      *
      * @return mixed|Model
      */
-    public function find($id)
+    public function find( $id )
     {//todo test
-        $response = $this->request->curl->get("/{$this->entity}/{$id}");
+        $response = $this->request->curl->get( "/{$this->entity}/{$id}" );
 
         // todo check for errors and such
 
-        $responseData = json_decode($response->getBody()->getContents());
+        $responseData = json_decode( $response->getBody()->getContents() );
 
-        return new $this->model($this->request, $responseData);
+        return new $this->model( $this->request, $responseData );
     }
 
     /**
@@ -41,11 +41,11 @@ class SingleBuilder
      */
     public function get()
     {
-        $response = $this->request->curl->get("/{$this->entity}");
+        $response = $this->request->curl->get( "/{$this->entity}" );
 
         // todo check for errors and such
 
-        $responseData = json_decode($response->getBody()->getContents());
+        $responseData = json_decode( $response->getBody()->getContents() );
 
         return $responseData;
     }

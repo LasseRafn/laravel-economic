@@ -7,5 +7,5 @@ use LasseRafn\Economic\Models\Journal;
 class JournalBuilder extends Builder
 {
     protected $entity = 'journals-experimental';
-    protected $model = Journal::class;
+    protected $model  = Journal::class;
 }

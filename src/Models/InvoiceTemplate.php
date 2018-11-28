@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kgbot
- * Date: 11/28/18
- * Time: 6:10 PM
- */
 
 namespace LasseRafn\Economic\Models;
-
 
 use LasseRafn\Economic\Utils\Model;
 use LasseRafn\Economic\Utils\Request;

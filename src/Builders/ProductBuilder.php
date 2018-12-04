@@ -7,16 +7,16 @@ use LasseRafn\Economic\Models\Product;
 class ProductBuilder extends Builder
 {
     protected $entity = 'products';
-    protected $model  = Product::class;
+    protected $model = Product::class;
 
     /**
      * @param $unencodedId
      *
      * @return mixed|Model
      */
-    public function findWithCustomEncoding( $unencodedId )
+    public function findWithCustomEncoding($unencodedId)
     {
-        return $this->find( $this->encode( $unencodedId ) );
+        return $this->find($this->encode($unencodedId));
     }
 
     /**
@@ -24,7 +24,7 @@ class ProductBuilder extends Builder
      *
      * @return string
      */
-    public function encode( $unencodedId )
+    public function encode($unencodedId)
     {
         $replacements = [
             '_'  => '_8_',
@@ -43,7 +43,7 @@ class ProductBuilder extends Builder
             '+'  => '_13_',
         ];
 
-        return str_replace( array_keys( $replacements ), $replacements, $unencodedId );
+        return str_replace(array_keys($replacements), $replacements, $unencodedId);
     }
 
     /**
@@ -51,7 +51,7 @@ class ProductBuilder extends Builder
      *
      * @return string
      */
-    public function decode( $encodedId )
+    public function decode($encodedId)
     {
         $replacements = [
             '_0_'  => '<',
@@ -70,6 +70,6 @@ class ProductBuilder extends Builder
             '_13_' => '+',
         ];
 
-        return str_replace( array_keys( $replacements ), $replacements, $encodedId );
+        return str_replace(array_keys($replacements), $replacements, $encodedId);
     }
 }

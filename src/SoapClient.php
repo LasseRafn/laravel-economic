@@ -172,12 +172,12 @@ class SoapClient
         ])->Project_CreateFromDataArrayResult;
     }
 
-    public function createQuotationsFromArray( $data )
+    public function createQuotationsFromArray($data)
     {
-        return $this->soap->call( 'economic.Quotation_CreateFromDataArray', [
+        return $this->soap->call('economic.Quotation_CreateFromDataArray', [
             'Quotation_CreateFromDataArray' => [
                 'dataArray' => $data,
             ],
-        ] )->Quotation_CreateFromDataArrayResult;
+        ])->Quotation_CreateFromDataArrayResult;
     }
 }

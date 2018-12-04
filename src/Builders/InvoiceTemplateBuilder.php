@@ -2,7 +2,6 @@
 
 namespace LasseRafn\Economic\Builders;
 
-
 use LasseRafn\Economic\Models\InvoiceTemplate;
 use LasseRafn\Economic\Utils\Request;
 

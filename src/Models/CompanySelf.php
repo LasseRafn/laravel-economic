@@ -6,7 +6,7 @@ use LasseRafn\Economic\Utils\Model;
 
 class CompanySelf extends Model
 {
-    protected $entity = 'self';
+    protected $entity     = 'self';
     protected $primaryKey = 'agreementNumber';
 
     public $agreementNumber;

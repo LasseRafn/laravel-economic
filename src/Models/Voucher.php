@@ -6,9 +6,9 @@ use LasseRafn\Economic\Utils\Model;
 
 class Voucher extends Model
 {
-    protected $entity = ' /accounting-years/:accountingYear/vouchers';
+    protected $entity     = ' /accounting-years/:accountingYear/vouchers';
     protected $primaryKey = 'voucherNumber';
-    protected $fillable = [
+    protected $fillable   = [
         'attachment',
         'booked',
         'date',

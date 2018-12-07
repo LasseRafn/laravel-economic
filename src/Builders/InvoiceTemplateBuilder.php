@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kgbot
- * Date: 11/28/18
- * Time: 6:11 PM
- */
 
 namespace LasseRafn\Economic\Builders;
-
 
 use LasseRafn\Economic\Models\InvoiceTemplate;
 use LasseRafn\Economic\Utils\Request;

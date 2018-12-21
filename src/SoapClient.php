@@ -242,4 +242,13 @@ class SoapClient
 
         return $entries;
     }
+
+    public function deleteProductGroup( $number )
+    {
+        return $this->soap->call( 'economic.ProductGroup_Delete', [
+            'productGroupHandle' => [
+                'Number' => $number,
+            ],
+        ] )->ProductGroup_DeleteResponse;
+    }
 }

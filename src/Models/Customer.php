@@ -85,6 +85,6 @@ class Customer extends Model
 
     public function invoiceTemplates()
     {
-        return new InvoiceTemplateBuilder( $this->request, $this->customerNumber );
+        return new InvoiceTemplateBuilder($this->request, $this->customerNumber);
     }
 }

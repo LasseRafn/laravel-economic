@@ -172,71 +172,48 @@ class SoapClient
         ])->Project_CreateFromDataArrayResult;
     }
 
-    public function registerPdfVoucher( $file, $entry_number, $entry_date )
+    public function createQuotationsFromArray($data)
     {
-        $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
-            'CashBook_RegisterPdfVoucher' => [
-                'data'          => $file,
-                'voucherNumber' => (int) $entry_number,
-                'entryDate'     => $entry_date,
-            ],
-        ] );
-
-        return true;
-    }
-
-    public function createProductGroupFromData( $data )
-    {
-        return $this->soap->call( 'economic.ProductGroup_CreateFromData', [
-            'ProductGroup_CreateFromData' => [
-                'data' => $data,
-            ],
-        ] )->ProductGroup_CreateFromDataResult;
-    }
-
-    public function createQuotationsFromArray( $data )
-    {
-        return $this->soap->call( 'economic.Quotation_CreateFromDataArray', [
+        return $this->soap->call('economic.Quotation_CreateFromDataArray', [
             'Quotation_CreateFromDataArray' => [
                 'dataArray' => $data,
             ],
-        ] )->Quotation_CreateFromDataArrayResult;
+        ])->Quotation_CreateFromDataArrayResult;
     }
 
     public function getProjectCosts()
     {
-        $project_costs = $this->soap->call( 'economic.CostType_GetAll' )->CostType_GetAllResult;
+        $project_costs = $this->soap->call('economic.CostType_GetAll')->CostType_GetAllResult;
 
-        $entries = collect( [] );
+        $entries = collect([]);
 
-        if ( !isset( $project_costs->CostTypeHandle ) ) {
-
+        if (!isset($project_costs->CostTypeHandle)) {
             return $entries;
         }
 
         $handles = [];
 
-        foreach ( $project_costs->CostTypeHandle as $project_cost ) {
-            if ( !isset( $project_cost->Number ) ) {
+        foreach ($project_costs->CostTypeHandle as $project_cost) {
+            if (!isset($project_cost->Number)) {
                 continue;
             }
 
-            $handles[] = [ 'Number' => $project_cost->Number ];
+            $handles[] = ['Number' => $project_cost->Number];
         }
 
-        if ( count( $handles ) > 0 ) {
+        if (count($handles) > 0) {
             try {
-                $projectCostResponse = $this->soap->call( 'economic.CostType_GetDataArray', [
+                $projectCostResponse = $this->soap->call('economic.CostType_GetDataArray', [
                     'CostType_GetDataArray' => [
                         'entityHandles' => $handles,
                     ],
-                ] )->CostType_GetDataArrayResult;
-            } catch ( \SoapFault $exception ) {
+                ])->CostType_GetDataArrayResult;
+            } catch (\SoapFault $exception) {
                 throw $exception;
             }
 
-            foreach ( $projectCostResponse->CostTypeData as $item ) {
-                $entries->push( $item );
+            foreach ($projectCostResponse->CostTypeData as $item) {
+                $entries->push($item);
             }
         }
 

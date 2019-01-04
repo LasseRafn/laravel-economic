@@ -17,17 +17,16 @@ class InvoiceTemplateBuilder extends Builder
         parent::__construct($request);
     }
 
-    public function get( $filters = [] )
+    public function get($filters = [])
     {
+        return $this->request->handleWithExceptions(function () {
+            $response = $this->request->curl->get("/{$this->entity}");
 
-        return $this->request->handleWithExceptions( function () {
-            $response = $this->request->curl->get( "/{$this->entity}" );
+            $responseData = json_decode($response->getBody()->getContents());
 
-            $responseData = json_decode( $response->getBody()->getContents() );
-
-            $model = new $this->model( $this->request, $responseData );
+            $model = new $this->model($this->request, $responseData);
 
             return $model;
-        } );
+        });
     }
 }

@@ -172,6 +172,28 @@ class SoapClient
         ])->Project_CreateFromDataArrayResult;
     }
 
+    public function registerPdfVoucher( $file, $entry_number, $entry_date )
+    {
+        $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
+            'CashBook_RegisterPdfVoucher' => [
+                'data'          => $file,
+                'voucherNumber' => (int) $entry_number,
+                'entryDate'     => $entry_date,
+            ],
+        ] );
+
+        return true;
+    }
+
+    public function createProductGroupFromData( $data )
+    {
+        return $this->soap->call( 'economic.ProductGroup_CreateFromData', [
+            'ProductGroup_CreateFromData' => [
+                'data' => $data,
+            ],
+        ] )->ProductGroup_CreateFromDataResult;
+    }
+
     public function createQuotationsFromArray($data)
     {
         return $this->soap->call('economic.Quotation_CreateFromDataArray', [

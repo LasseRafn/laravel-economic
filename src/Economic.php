@@ -4,6 +4,7 @@ namespace LasseRafn\Economic;
 
 use LasseRafn\Economic\Builders\AccountBuilder;
 use LasseRafn\Economic\Builders\AccountingYearBuilder;
+use LasseRafn\Economic\Builders\ArchivedOrderBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
@@ -234,6 +235,14 @@ class Economic
     public function users()
     {
         return new UserBuilder($this->request);
+    }
+
+    /**
+     * @return \LasseRafn\Economic\Builders\ArchivedOrderBuilder
+     */
+    public function archivedOrders()
+    {
+        return new ArchivedOrderBuilder( $this->request );
     }
 
     /**

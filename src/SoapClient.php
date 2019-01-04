@@ -251,4 +251,32 @@ class SoapClient
             ],
         ] )->ProductGroup_DeleteResponse;
     }
+
+    /**
+     * @param $ids integer|array
+     *
+     * @return mixed
+     */
+    public function orderGetDataByArray( $ids )
+    {
+        $handles = [];
+
+        if ( is_array( $ids ) ) {
+
+            foreach ( $ids as $id ) {
+
+                $handles[] = [ 'Id' => $id ];
+            }
+        } else {
+
+            $handles[] = [ 'Id' => $ids ];
+        }
+
+        return $this->soap->call( 'economic.Order_GetDataArray', [
+
+            'Order_GetDataArray' => [
+                'entityHandles' => $handles,
+            ],
+        ] )->Order_GetDataArrayResult;
+    }
 }

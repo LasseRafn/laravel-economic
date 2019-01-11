@@ -18,6 +18,7 @@ use LasseRafn\Economic\Builders\PaymentTermBuilder;
 use LasseRafn\Economic\Builders\ProductBuilder;
 use LasseRafn\Economic\Builders\ProductGroupBuilder;
 use LasseRafn\Economic\Builders\SelfBuilder;
+use LasseRafn\Economic\Builders\SentOrderBuilder;
 use LasseRafn\Economic\Builders\SupplierBuilder;
 use LasseRafn\Economic\Builders\SupplierGroupBuilder;
 use LasseRafn\Economic\Builders\UnitBuilder;
@@ -243,6 +244,14 @@ class Economic
     public function archivedOrders()
     {
         return new ArchivedOrderBuilder( $this->request );
+    }
+
+    /**
+     * @return \LasseRafn\Economic\Builders\SentOrderBuilder
+     */
+    public function sentOrders()
+    {
+        return new SentOrderBuilder( $this->request );
     }
 
     /**

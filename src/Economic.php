@@ -7,6 +7,7 @@ use LasseRafn\Economic\Builders\AccountingYearBuilder;
 use LasseRafn\Economic\Builders\ArchivedOrderBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
+use LasseRafn\Economic\Builders\ContactBuilder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
@@ -155,6 +156,16 @@ class Economic
     {
         return new LayoutBuilder($this->request);
     }
+	
+	
+/**
+ * @param integer $customerNumber
+ *
+ * @return ContactBuilder()|Builder
+ */
+public function customerContacts( $customerNumber ) {
+	return new ContactBuilder( $this->request, $customerNumber );
+}
 
     /**
      * @return VatZoneBuilder|Builder

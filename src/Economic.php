@@ -7,6 +7,7 @@ use LasseRafn\Economic\Builders\AccountingYearBuilder;
 use LasseRafn\Economic\Builders\ArchivedOrderBuilder;
 use LasseRafn\Economic\Builders\BookedInvoiceBuilder;
 use LasseRafn\Economic\Builders\Builder;
+use LasseRafn\Economic\Builders\ContactBuilder;
 use LasseRafn\Economic\Builders\CustomerBuilder;
 use LasseRafn\Economic\Builders\CustomerGroupBuilder;
 use LasseRafn\Economic\Builders\DraftInvoiceBuilder;
@@ -246,20 +247,18 @@ class Economic
         return new ArchivedOrderBuilder( $this->request );
     }
 
+	/**
+	 * @return CompanySelf
+	 */
+	public function self() {
+		return ( new SelfBuilder( $this->request ) )->find( '' );
+	}
     /**
      * @return \LasseRafn\Economic\Builders\SentOrderBuilder
      */
     public function sentOrders()
     {
         return new SentOrderBuilder( $this->request );
-    }
-
-    /**
-     * @return CompanySelf
-     */
-    public function self()
-    {
-        return (new SelfBuilder($this->request))->find('');
     }
 
     /**

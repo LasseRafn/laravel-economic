@@ -6,4 +6,9 @@ return [
     'public_token'     => env('ECONOMIC_APP_PUBLIC'),
     'secret_token'     => env('ECONOMIC_APP_SECRET'),
     'agreement'        => env('ECONOMIC_AGREEMENT'),
+
+    /* --------------------------------------------------------
+     * Automatically strip null values.
+     * ----------------------------------------------------- */
+    'strip_null'       => true,
 ];

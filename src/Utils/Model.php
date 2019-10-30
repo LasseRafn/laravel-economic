@@ -87,7 +87,9 @@ class Model
 
     public function updateRaw($data = [])
     {
-        return $this->request->handleWithExceptions(function () use ($data) {
+	    $data = $this->request->formatData($data);
+
+	    return $this->request->handleWithExceptions(function () use ($data) {
             $response = $this->request->curl->put($this->getUpdateEndpoint(), [
                 'json' => $data,
             ]);

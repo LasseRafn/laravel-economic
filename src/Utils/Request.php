@@ -11,7 +11,9 @@ class Request
 {
     public $curl;
 
-    public function __construct($agreementToken = '', $apiSecret = '')
+    protected $stripNull;
+
+    public function __construct($agreementToken = '', $apiSecret = '', $stripNull = false)
     {
         $this->curl = new Client([
             'base_uri' => config('economic.request_endpoint'),
@@ -21,6 +23,16 @@ class Request
                 'Content-Type'          => 'application/json',
             ],
         ]);
+
+    	$this->stripNull = $stripNull;
+    }
+
+    public function formatData($data) {
+    	if($this->stripNull) {
+    		return array_filter($data, static function($item) { return $item !== null; });
+	    }
+
+    	return $data;
     }
 
     public function handleWithExceptions($callback)

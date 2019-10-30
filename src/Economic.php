@@ -28,6 +28,7 @@ use LasseRafn\Economic\Builders\UserBuilder;
 use LasseRafn\Economic\Builders\VatZoneBuilder;
 use LasseRafn\Economic\Builders\VoucherBuilder;
 use LasseRafn\Economic\Models\CompanySelf;
+use LasseRafn\Economic\Utils\Model;
 use LasseRafn\Economic\Utils\Request;
 
 class Economic
@@ -40,11 +41,14 @@ class Economic
 
     protected $apiPublic;
 
-    public function __construct($agreement = '', $apiSecret = null, $apiPublic = null)
+    protected $stripNullValues;
+
+    public function __construct($agreement = '', $apiSecret = null, $apiPublic = null, $stripNull = null)
     {
         $this->agreement = $agreement ?? config('economic.agreement');
         $this->apiSecret = $apiSecret ?? config('economic.secret_token');
         $this->apiPublic = $apiPublic ?? config('economic.public_token');
+        $this->stripNullValues = $stripNull ?? config('economic.strip_null', false);
 
         $this->initRequest();
     }
@@ -157,16 +161,16 @@ class Economic
     {
         return new LayoutBuilder($this->request);
     }
-	
-	
-/**
- * @param integer $customerNumber
- *
- * @return ContactBuilder()|Builder
- */
-public function customerContacts( $customerNumber ) {
-	return new ContactBuilder( $this->request, $customerNumber );
-}
+
+	/**
+	 * @param integer $customerNumber
+	 *
+	 * @return ContactBuilder()|Builder
+	 */
+	public function customerContacts( $customerNumber )
+	{
+		return new ContactBuilder( $this->request, $customerNumber );
+	}
 
     /**
      * @return VatZoneBuilder|Builder
@@ -259,7 +263,7 @@ public function customerContacts( $customerNumber ) {
     }
 
 	/**
-	 * @return CompanySelf
+	 * @return CompanySelf|Model
 	 */
 	public function self() {
 		return ( new SelfBuilder( $this->request ) )->find( '' );
@@ -315,6 +319,6 @@ public function customerContacts( $customerNumber ) {
 
     protected function initRequest()
     {
-        $this->request = new Request($this->agreement, $this->apiSecret);
+        $this->request = new Request($this->agreement, $this->apiSecret, $this->stripNullValues);
     }
 }

@@ -186,6 +186,8 @@ class Builder
 	 */
     public function create($data)
     {
+    	$data = $this->request->formatData($data);
+
         return $this->request->handleWithExceptions(function () use ($data) {
             $response = $this->request->curl->post("/{$this->entity}", [
                 'json' => $data,

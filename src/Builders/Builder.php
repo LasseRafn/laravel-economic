@@ -114,7 +114,7 @@ class Builder
     {
         $items = collect([]);
 
-        $urlFilters = $this->generateQueryStringFromFilterArray($filters);
+        $urlFilters = $this->generateQueryStringFromFilterArray($filters, true);
 
         return $this->request->handleWithExceptions(function () use ($pageSize, &$page, &$items, $urlFilters) {
             $response = $this->request->curl->get("/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}");
@@ -148,7 +148,7 @@ class Builder
         $hasMore = true;
         $items = collect([]);
 
-	    $urlFilters = $this->generateQueryStringFromFilterArray($filters);
+	    $urlFilters = $this->generateQueryStringFromFilterArray($filters, true);
 
         return $this->request->handleWithExceptions(function () use (&$hasMore, $pagesize, &$page, &$items, $urlFilters) {
             while ($hasMore) {
@@ -243,13 +243,13 @@ class Builder
 	    }
     }
 
-    protected function generateQueryStringFromFilterArray($filters)
+    protected function generateQueryStringFromFilterArray($filters, $and = false)
     {
 	    if (\count($filters) === 0) {
 	    	return '';
 	    }
 
-	    $string = '&filter=';
+	    $string = ($and ? '&' : '?') . 'filter=';
 
 	    $i = 1;
 	    foreach ($filters as $filter) {

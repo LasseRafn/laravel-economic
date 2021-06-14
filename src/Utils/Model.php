@@ -2,6 +2,8 @@
 
 namespace LasseRafn\Economic\Utils;
 
+use Illuminate\Support\Str;
+
 class Model
 {
     protected $entity;
@@ -20,7 +22,7 @@ class Model
         $data = (array) $data;
 
         foreach ($data as $key => $value) {
-            $customSetterMethod = 'set'.ucfirst(camel_case($key)).'Attribute';
+            $customSetterMethod = 'set'.ucfirst(Str::camel($key)).'Attribute';
 
             if (!method_exists($this, $customSetterMethod)) {
                 $this->setAttribute($key, $value);

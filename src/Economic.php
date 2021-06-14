@@ -43,7 +43,7 @@ class Economic
 
     protected $stripNullValues;
 
-    public function __construct($agreement = '', $apiSecret = null, $apiPublic = null, $stripNull = null)
+    public function __construct($agreement = null, $apiSecret = null, $apiPublic = null, $stripNull = null)
     {
         $this->agreement = $agreement ?? config('economic.agreement');
         $this->apiSecret = $apiSecret ?? config('economic.secret_token');

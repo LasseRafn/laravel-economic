@@ -12,7 +12,7 @@ class SoapClient
     protected $secret;
     protected $agreement;
 
-    public function __construct($agreement = '', $secret = null)
+    public function __construct($agreement = null, $secret = null)
     {
         $this->agreement = $agreement ?? config('economic.agreement');
         $this->secret = $secret ?? config('economic.secret_token');

@@ -145,7 +145,7 @@ class SoapClient
         return $entries;
     }
 
-    public function createCashBookEntryFromData( $data )
+    public function createCashBookEntryFromData($data)
     {
         return $this->soap->call('economic.CashBookEntry_CreateFromData', [
             'CashBookEntry_CreateFromData' => [
@@ -172,7 +172,7 @@ class SoapClient
         ])->Project_CreateFromDataArrayResult;
     }
 
-    public function registerPdfVoucher( $file, $entry_number, $entry_date )
+    public function registerPdfVoucher($file, $entry_number, $entry_date)
     {
         $this->soap->call('economic.CashBook_RegisterPdfVoucher', [
             'CashBook_RegisterPdfVoucher' => [
@@ -261,7 +261,7 @@ class SoapClient
         $handles = [];
 
         if (is_array($ids)) {
-            foreach ( $ids as $id ) {
+            foreach ($ids as $id) {
                 $handles[] = ['Id' => $id];
             }
         } else {

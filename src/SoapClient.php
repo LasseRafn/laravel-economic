@@ -174,24 +174,24 @@ class SoapClient
 
     public function registerPdfVoucher( $file, $entry_number, $entry_date )
     {
-        $this->soap->call( 'economic.CashBook_RegisterPdfVoucher', [
+        $this->soap->call('economic.CashBook_RegisterPdfVoucher', [
             'CashBook_RegisterPdfVoucher' => [
                 'data'          => $file,
                 'voucherNumber' => (int) $entry_number,
                 'entryDate'     => $entry_date,
             ],
-        ] );
+        ]);
 
         return true;
     }
 
-    public function createProductGroupFromData( $data )
+    public function createProductGroupFromData($data)
     {
-        return $this->soap->call( 'economic.ProductGroup_CreateFromData', [
+        return $this->soap->call('economic.ProductGroup_CreateFromData', [
             'ProductGroup_CreateFromData' => [
                 'data' => $data,
             ],
-        ] )->ProductGroup_CreateFromDataResult;
+        ])->ProductGroup_CreateFromDataResult;
     }
 
     public function createQuotationsFromArray($data)
@@ -242,13 +242,13 @@ class SoapClient
         return $entries;
     }
 
-    public function deleteProductGroup( $number )
+    public function deleteProductGroup($number)
     {
-        return $this->soap->call( 'economic.ProductGroup_Delete', [
+        return $this->soap->call('economic.ProductGroup_Delete', [
             'productGroupHandle' => [
                 'Number' => $number,
             ],
-        ] )->ProductGroup_DeleteResponse;
+        ])->ProductGroup_DeleteResponse;
     }
 
     /**
@@ -256,26 +256,22 @@ class SoapClient
      *
      * @return mixed
      */
-    public function orderGetDataByArray( $ids )
+    public function orderGetDataByArray($ids)
     {
         $handles = [];
 
-        if ( is_array( $ids ) ) {
-
+        if (is_array($ids)) {
             foreach ( $ids as $id ) {
-
-                $handles[] = [ 'Id' => $id ];
+                $handles[] = ['Id' => $id];
             }
         } else {
-
-            $handles[] = [ 'Id' => $ids ];
+            $handles[] = ['Id' => $ids];
         }
 
-        return $this->soap->call( 'economic.Order_GetDataArray', [
-
+        return $this->soap->call('economic.Order_GetDataArray', [
             'Order_GetDataArray' => [
                 'entityHandles' => $handles,
             ],
-        ] )->Order_GetDataArrayResult;
+        ])->Order_GetDataArrayResult;
     }
 }

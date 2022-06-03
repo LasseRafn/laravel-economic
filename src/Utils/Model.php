@@ -3,6 +3,7 @@
 namespace LasseRafn\Economic\Utils;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class Model
 {
@@ -61,7 +62,7 @@ class Model
     public function toPutArray($overrides = [])
     {
         if (isset($this->puttable)) {
-            return array_merge(array_only(
+            return array_merge(Arr::only(
                 $this->toArray(),
                 $this->puttable
             ), $overrides);

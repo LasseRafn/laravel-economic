@@ -22,6 +22,7 @@ class Request
                 'X-AgreementGrantToken' => $agreementToken,
                 'Content-Type'          => 'application/json',
             ],
+            'allow_redirects' => ['strict' => true],
         ]);
 
     	$this->stripNull = $stripNull;

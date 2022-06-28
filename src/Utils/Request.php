@@ -73,8 +73,12 @@ class Request
 
 	public function doRequest($method, $path, $options = [])
 	{
-		foreach ($this->beforeRequestHooks as $hook) {
-			$hook($method, $path, $options);
+		try {
+			foreach ($this->beforeRequestHooks as $hook) {
+				$hook($method, $path, $options);
+			}
+		} catch (\Throwable $exception) {
+			// silence hooks!!!
 		}
 
 		return $this->curl->{$method}($path, $options);

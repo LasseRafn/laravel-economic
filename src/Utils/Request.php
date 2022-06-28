@@ -9,62 +9,74 @@ use LasseRafn\Economic\Exceptions\EconomicRequestException;
 
 class Request
 {
-    public $curl;
+	public $curl;
 
-    protected $stripNull;
+	protected $stripNull;
 
-    public function __construct($agreementToken = '', $apiSecret = '', $stripNull = false)
-    {
-        $this->curl = new Client([
-            'base_uri' => config('economic.request_endpoint'),
-            'headers'  => [
-                'X-AppSecretToken'      => $apiSecret,
-                'X-AgreementGrantToken' => $agreementToken,
-                'Content-Type'          => 'application/json',
-            ],
-            'allow_redirects' => ['strict' => true],
-        ]);
+	public $beforeRequestHooks = [];
 
-    	$this->stripNull = $stripNull;
-    }
+	public function __construct($agreementToken = '', $apiSecret = '', $stripNull = false)
+	{
+		$this->curl = new Client([
+			'base_uri'        => config('economic.request_endpoint'),
+			'headers'         => [
+				'X-AppSecretToken'      => $apiSecret,
+				'X-AgreementGrantToken' => $agreementToken,
+				'Content-Type'          => 'application/json',
+			],
+			'allow_redirects' => ['strict' => true],
+		]);
 
-    public function formatData($data) {
-    	if($this->stripNull) {
-    		return array_filter($data, static function($item) { return $item !== null; });
-	    }
+		$this->stripNull = $stripNull;
+	}
 
-    	return $data;
-    }
+	public function formatData($data)
+	{
+		if ($this->stripNull) {
+			return array_filter($data, static function ($item) { return $item !== null; });
+		}
 
-    public function handleWithExceptions($callback)
-    {
-        try {
-            return $callback();
-        } catch (ClientException $exception) {
-            $message = $exception->getMessage();
-            $code = $exception->getCode();
+		return $data;
+	}
 
-            if ($exception->hasResponse()) {
-                $message = $exception->getResponse()->getBody()->getContents();
-                $code = $exception->getResponse()->getStatusCode();
-            }
+	public function handleWithExceptions($callback)
+	{
+		try {
+			return $callback();
+		} catch (ClientException $exception) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
 
-            throw new EconomicRequestException($message, $code);
-        } catch (ServerException $exception) {
-            $message = $exception->getMessage();
-            $code = $exception->getCode();
+			if ($exception->hasResponse()) {
+				$message = $exception->getResponse()->getBody()->getContents();
+				$code    = $exception->getResponse()->getStatusCode();
+			}
 
-            if ($exception->hasResponse()) {
-                $message = $exception->getResponse()->getBody()->getContents();
-                $code = $exception->getResponse()->getStatusCode();
-            }
+			throw new EconomicRequestException($message, $code);
+		} catch (ServerException $exception) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
 
-            throw new EconomicRequestException($message, $code);
-        } catch (\Exception $exception) {
-            $message = $exception->getMessage();
-            $code = $exception->getCode();
+			if ($exception->hasResponse()) {
+				$message = $exception->getResponse()->getBody()->getContents();
+				$code    = $exception->getResponse()->getStatusCode();
+			}
 
-            throw new EconomicClientException($message, $code);
-        }
-    }
+			throw new EconomicRequestException($message, $code);
+		} catch (\Exception $exception) {
+			$message = $exception->getMessage();
+			$code    = $exception->getCode();
+
+			throw new EconomicClientException($message, $code);
+		}
+	}
+
+	public function doRequest($method, $path, $options = [])
+	{
+		foreach ($this->beforeRequestHooks as $hook) {
+			$hook($method, $path, $options);
+		}
+
+		return $this->curl->{$method}($path, $options);
+	}
 }

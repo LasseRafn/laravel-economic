@@ -20,7 +20,7 @@ class InvoiceTemplateBuilder extends Builder
     public function get($filters = [])
     {
         return $this->request->handleWithExceptions(function () {
-            $response = $this->request->curl->get("/{$this->entity}");
+	        $response = $this->request->doRequest('get', "/{$this->entity}");
 
             $responseData = json_decode($response->getBody()->getContents());
 

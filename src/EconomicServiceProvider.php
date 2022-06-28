@@ -14,8 +14,6 @@ class EconomicServiceProvider extends ServiceProvider
         $configPath = __DIR__.'/config/economic.php';
         $this->mergeConfigFrom($configPath, 'economic');
 
-        $configPath = __DIR__.'/config/economic.php';
-
         if (function_exists('config_path')) {
             $publishPath = config_path('economic.php');
         } else {

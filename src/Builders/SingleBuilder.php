@@ -24,8 +24,9 @@ class SingleBuilder
      * @return mixed|Model
      */
     public function find($id)
-    {//todo test
-        $response = $this->request->curl->get("/{$this->entity}/{$id}");
+    {
+		//todo test
+	    $response = $this->request->doRequest('get', "/{$this->entity}/{$id}");
 
         // todo check for errors and such
 
@@ -41,7 +42,7 @@ class SingleBuilder
      */
     public function get()
     {
-        $response = $this->request->curl->get("/{$this->entity}");
+	    $response = $this->request->doRequest('get', "/{$this->entity}");
 
         // todo check for errors and such
 

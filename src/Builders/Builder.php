@@ -42,7 +42,7 @@ class Builder
     public function find($id)
     {
         return $this->request->handleWithExceptions(function () use ($id) {
-            $response = $this->request->curl->get("/{$this->entity}/{$id}");
+            $response = $this->request->doRequest('get', "/{$this->entity}/{$id}");
 
             $responseData = json_decode($response->getBody()->getContents());
 
@@ -58,7 +58,7 @@ class Builder
     public function first()
     {
         return $this->request->handleWithExceptions(function () {
-            $response = $this->request->curl->get("/{$this->entity}?skippages=0&pagesize=1");
+	        $response = $this->request->doRequest('get', "/{$this->entity}?skippages=0&pagesize=1");
 
             $responseData = json_decode($response->getBody()->getContents());
             $fetchedItems = $responseData->collection;
@@ -83,7 +83,7 @@ class Builder
 	    $urlFilters = $this->generateQueryStringFromFilterArray($filters);
 
         return $this->request->handleWithExceptions(function () use ($urlFilters) {
-            $response = $this->request->curl->get("/{$this->entity}{$urlFilters}");
+	        $response = $this->request->doRequest('get', "/{$this->entity}{$urlFilters}");
 
             $responseData = json_decode($response->getBody()->getContents());
 
@@ -117,7 +117,7 @@ class Builder
         $urlFilters = $this->generateQueryStringFromFilterArray($filters, true);
 
         return $this->request->handleWithExceptions(function () use ($pageSize, &$page, &$items, $urlFilters) {
-            $response = $this->request->curl->get("/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}");
+	        $response = $this->request->doRequest('get', "/{$this->entity}?skippages={$page}&pagesize={$pageSize}{$urlFilters}");
 
             $responseData = json_decode($response->getBody()->getContents());
             $fetchedItems = $responseData->collection;
@@ -152,7 +152,7 @@ class Builder
 
         return $this->request->handleWithExceptions(function () use (&$hasMore, $pagesize, &$page, &$items, $urlFilters) {
             while ($hasMore) {
-                $response = $this->request->curl->get("/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}");
+	            $response = $this->request->doRequest('get', "/{$this->entity}?skippages={$page}&pagesize={$pagesize}{$urlFilters}");
 
                 $responseData = json_decode($response->getBody()->getContents());
                 $fetchedItems = $responseData->collection;
@@ -189,9 +189,9 @@ class Builder
     	$data = $this->request->formatData($data);
 
         return $this->request->handleWithExceptions(function () use ($data) {
-            $response = $this->request->curl->post("/{$this->entity}", [
-                'json' => $data,
-            ]);
+	        $response = $this->request->doRequest('post', "/{$this->entity}",[
+		        'json' => $data,
+	        ]);
 
             $responseData = json_decode($response->getBody()->getContents());
 

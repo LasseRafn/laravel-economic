@@ -45,6 +45,8 @@ class Builder
             $response = $this->request->doRequest('get', "/{$this->entity}/{$id}");
 
             $responseData = json_decode($response->getBody()->getContents());
+		
+            $response->getBody()->close();
 
             return new $this->model($this->request, $responseData);
         });
@@ -62,6 +64,8 @@ class Builder
 
             $responseData = json_decode($response->getBody()->getContents());
             $fetchedItems = $responseData->collection;
+		
+            $response->getBody()->close();
 
             if (count($fetchedItems) === 0) {
                 return;
@@ -96,6 +100,8 @@ class Builder
 
                 $items->push($model);
             }
+		
+            $response->getBody()->close();
 
             return $items;
         });
@@ -128,6 +134,8 @@ class Builder
 
                 $items->push($model);
             }
+		
+            $response->getBody()->close();
 
             return $items;
         });
@@ -156,6 +164,8 @@ class Builder
 
                 $responseData = json_decode($response->getBody()->getContents());
                 $fetchedItems = $responseData->collection;
+		    
+            	$response->getBody()->close();
 
                 if (count($fetchedItems) === 0) {
                     $hasMore = false;
@@ -194,6 +204,8 @@ class Builder
 	        ]);
 
             $responseData = json_decode($response->getBody()->getContents());
+		    
+            	$response->getBody()->close();
 
             return new $this->model($this->request, $responseData);
         });

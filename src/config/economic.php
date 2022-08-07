@@ -11,4 +11,13 @@ return [
      * Automatically strip null values.
      * ----------------------------------------------------- */
     'strip_null'       => true,
+
+    /* --------------------------------------------------------
+     * Automatically retry requests for server exceptions (5XX)
+     * ----------------------------------------------------- */
+    'retry_server_exceptions' => [
+		'enabled' => false,
+		'retries' => 3,
+		'timeout_ms' => 10000,
+    ]
 ];
